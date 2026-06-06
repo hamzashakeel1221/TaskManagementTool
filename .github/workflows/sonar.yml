@@ -22,7 +22,7 @@ jobs:
       - name: Install SonarScanner
         run: dotnet tool install --global dotnet-sonarscanner
 
-      - name: Build and Analyze
+      - name: Begin Sonar Scan
         env:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
@@ -31,5 +31,11 @@ jobs:
             /o:"hamzashakeel1221" \
             /d:sonar.token="${SONAR_TOKEN}" \
             /d:sonar.host.url="https://sonarcloud.io"
-          cd Backend && dotnet build TaskManagement.API/TaskManagement.API.csproj --no-incremental
-          dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
+
+      - name: Build Project
+        run: dotnet build Backend/TaskManagement.API/TaskManagement.API.csproj --no-incremental
+
+      - name: End Sonar Scan
+        env:
+          SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
+        run: dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
