@@ -31,5 +31,5 @@ jobs:
             /o:"hamzashakeel1221" \
             /d:sonar.token="${SONAR_TOKEN}" \
             /d:sonar.host.url="https://sonarcloud.io"
-          cd Backend && dotnet build TaskManagement.sln --no-incremental
+          cd Backend && dotnet build TaskManagement.API/TaskManagement.API.csproj --no-incremental
           dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
