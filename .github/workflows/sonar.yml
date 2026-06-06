@@ -10,12 +10,12 @@ jobs:
   sonar:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v3
+      - uses: actions/checkout@v4
         with:
           fetch-depth: 0
 
       - name: Setup .NET
-        uses: actions/setup-dotnet@v3
+        uses: actions/setup-dotnet@v4
         with:
           dotnet-version: '10.0.x'
 
@@ -27,9 +27,9 @@ jobs:
           SONAR_TOKEN: ${{ secrets.SONAR_TOKEN }}
         run: |
           dotnet sonarscanner begin \
-            /k:"YOUR_USERNAME_task-management-tool" \
-            /o:"YOUR_SONARCLOUD_ORG" \
+            /k:"hamzashakeel1221_TaskManagementTool" \
+            /o:"hamzashakeel1221" \
             /d:sonar.token="${SONAR_TOKEN}" \
             /d:sonar.host.url="https://sonarcloud.io"
-          cd backend && dotnet build
+          cd backend && dotnet build --no-incremental
           dotnet sonarscanner end /d:sonar.token="${SONAR_TOKEN}"
