@@ -72,16 +72,25 @@ public class TaskService : ITaskService
         var task = await _context.Tasks.FindAsync(id)
             ?? throw new KeyNotFoundException($"Task {id} not found.");
 
-        if (!isAdmin && task.OwnerId != userId)
-            throw new UnauthorizedAccessException("Only the task owner or admin can update this task.");
+        bool isOwner = task.OwnerId == userId;
+        bool isAssigned = task.AssignedToId == userId;
 
-        task.Title = dto.Title;
-        task.Description = dto.Description;
-        task.Priority = Enum.Parse<TaskPriority>(dto.Priority);
+        if (!isAdmin && !isOwner && !isAssigned)
+            throw new UnauthorizedAccessException("You do not have access to this task.");
+
+        if (isAdmin || isOwner)
+        {
+            // Only update fields if they are provided
+            if (dto.Title != null) task.Title = dto.Title;
+            if (dto.Description != null) task.Description = dto.Description;
+            if (dto.Priority != null) task.Priority = Enum.Parse<TaskPriority>(dto.Priority);
+            if (dto.CategoryId != null) task.CategoryId = dto.CategoryId.Value;
+            task.DueDate = dto.DueDate;
+            task.AssignedToId = dto.AssignedToId;
+        }
+
+        // Status always updatable by owner, admin, or assigned user
         task.Status = Enum.Parse<Models.TaskStatus>(dto.Status);
-        task.CategoryId = dto.CategoryId;
-        task.DueDate = dto.DueDate;
-        task.AssignedToId = dto.AssignedToId;
         task.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();

@@ -10,12 +10,13 @@ const TaskFormPage: React.FC = () => {
   const { id } = useParams<{ id?: string }>();
   const isEdit = Boolean(id);
   const navigate = useNavigate();
-  const { isAdmin } = useAuth();
+  const { isAdmin, user } = useAuth();
 
   const [categories, setCategories] = useState<Category[]>([]);
   const [users, setUsers] = useState<UserOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
+  const [isOwner, setIsOwner] = useState(false);
   const [form, setForm] = useState({
     title: '',
     description: '',
@@ -32,6 +33,7 @@ const TaskFormPage: React.FC = () => {
     if (isEdit) {
       api.get(`/tasks/${id}`).then(res => {
         const t = res.data;
+        setIsOwner(t.ownerId === user?.id);
         setForm({
           title: t.title,
           description: t.description,
@@ -43,7 +45,7 @@ const TaskFormPage: React.FC = () => {
         });
       });
     }
-  }, [id, isEdit, isAdmin]);
+  }, [id, isEdit, isAdmin, user]);
 
   const handleChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
@@ -53,12 +55,17 @@ const TaskFormPage: React.FC = () => {
     e.preventDefault();
     setLoading(true);
     setError('');
-    const payload = {
-      ...form,
-      categoryId: parseInt(form.categoryId),
-      dueDate: form.dueDate || null,
-      assignedToId: form.assignedToId || null,
-    };
+
+    // If user is not owner and not admin, only send status
+    const payload = isOwner || isAdmin
+      ? {
+          ...form,
+          categoryId: parseInt(form.categoryId),
+          dueDate: form.dueDate || null,
+          assignedToId: form.assignedToId || null,
+        }
+      : { status: form.status };
+
     try {
       if (isEdit) {
         await api.put(`/tasks/${id}`, payload);
@@ -74,6 +81,10 @@ const TaskFormPage: React.FC = () => {
   };
 
   const inputClass = "w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent";
+  const disabledClass = "w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-400 cursor-not-allowed";
+
+  // user can edit everything, assigned non-owner user can only edit status
+  const canEditAll = isOwner || isAdmin;
 
   return (
     <div className="p-8 max-w-2xl">
@@ -84,9 +95,16 @@ const TaskFormPage: React.FC = () => {
         ← Back to Tasks
       </button>
 
-      <h2 className="text-2xl font-semibold text-gray-800 mb-6">
-        {isEdit ? 'Edit Task' : 'Create New Task'}
-      </h2>
+      <div className="flex items-center justify-between mb-6">
+        <h2 className="text-2xl font-semibold text-gray-800">
+          {isEdit ? 'Edit Task' : 'Create New Task'}
+        </h2>
+        {isEdit && !canEditAll && (
+          <span className="text-xs bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1.5 rounded-lg">
+            You can only update the status of this task
+          </span>
+        )}
+      </div>
 
       {error && (
         <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-5 text-sm">
@@ -103,7 +121,8 @@ const TaskFormPage: React.FC = () => {
               value={form.title}
               onChange={handleChange}
               required
-              className={inputClass}
+              disabled={!canEditAll}
+              className={canEditAll ? inputClass : disabledClass}
               placeholder="Task title"
             />
           </div>
@@ -115,7 +134,8 @@ const TaskFormPage: React.FC = () => {
               value={form.description}
               onChange={handleChange}
               rows={4}
-              className={inputClass}
+              disabled={!canEditAll}
+              className={canEditAll ? inputClass : disabledClass}
               placeholder="Describe the task..."
             />
           </div>
@@ -123,7 +143,13 @@ const TaskFormPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
-              <select name="priority" value={form.priority} onChange={handleChange} className={inputClass}>
+              <select
+                name="priority"
+                value={form.priority}
+                onChange={handleChange}
+                disabled={!canEditAll}
+                className={canEditAll ? inputClass : disabledClass}
+              >
                 <option>Low</option>
                 <option>Medium</option>
                 <option>High</option>
@@ -131,8 +157,18 @@ const TaskFormPage: React.FC = () => {
             </div>
             {isEdit && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
-                <select name="status" value={form.status} onChange={handleChange} className={inputClass}>
+                <label className="block text-sm font-medium text-gray-700 mb-1">
+                  Status
+                  {!canEditAll && (
+                    <span className="ml-1 text-xs text-blue-500 font-normal">(editable)</span>
+                  )}
+                </label>
+                <select
+                  name="status"
+                  value={form.status}
+                  onChange={handleChange}
+                  className={inputClass}
+                >
                   <option value="Pending">Pending</option>
                   <option value="InProgress">In Progress</option>
                   <option value="Completed">Completed</option>
@@ -144,7 +180,14 @@ const TaskFormPage: React.FC = () => {
           <div className="grid grid-cols-2 gap-4">
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
-              <select name="categoryId" value={form.categoryId} onChange={handleChange} required className={inputClass}>
+              <select
+                name="categoryId"
+                value={form.categoryId}
+                onChange={handleChange}
+                required
+                disabled={!canEditAll}
+                className={canEditAll ? inputClass : disabledClass}
+              >
                 <option value="">Select category</option>
                 {categories.map(c => (
                   <option key={c.id} value={c.id}>{c.name}</option>
@@ -158,7 +201,8 @@ const TaskFormPage: React.FC = () => {
                 name="dueDate"
                 value={form.dueDate}
                 onChange={handleChange}
-                className={inputClass}
+                disabled={!canEditAll}
+                className={canEditAll ? inputClass : disabledClass}
               />
             </div>
           </div>

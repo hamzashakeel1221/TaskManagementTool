@@ -10,11 +10,11 @@ public record CreateTaskDto(
 );
 
 public record UpdateTaskDto(
-    string Title,
-    string Description,
-    string Priority,
+    string? Title,
+    string? Description,
+    string? Priority,
     string Status,
-    int CategoryId,
+    int? CategoryId,
     DateTime? DueDate,
     string? AssignedToId
 );

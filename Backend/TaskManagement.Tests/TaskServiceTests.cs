@@ -54,7 +54,7 @@ public class TaskServiceTests
         await context.SaveChangesAsync();
 
         var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
-        var act = () => service.DeleteTaskAsync(1, "other-user", false);
+        var act = () => service.DeleteTaskAsync(1, "other-user");
 
         await act.Should().ThrowAsync<UnauthorizedAccessException>();
     }
