@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { useParams, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 interface Task {
   id: number;
@@ -29,6 +30,7 @@ const TaskDetailPage: React.FC = () => {
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
   const [deleting, setDeleting] = useState(false);
+  const [deleteModal, setDeleteModal] = useState(false);
   const { user } = useAuth();
   const navigate = useNavigate();
 
@@ -38,14 +40,9 @@ const TaskDetailPage: React.FC = () => {
       .finally(() => setLoading(false));
   }, [id]);
 
- const isOwner = task?.ownerId === user?.id;
+  const isOwner = task?.ownerId === user?.id;
 
-  const handleDelete = async () => {
-    if (!isOwner) {
-      alert('Only the task owner can delete this task.');
-      return;
-    }
-    if (!window.confirm('Are you sure you want to delete this task?')) return;
+  const handleDeleteConfirm = async () => {
     setDeleting(true);
     try {
       await api.delete(`/tasks/${id}`);
@@ -53,6 +50,8 @@ const TaskDetailPage: React.FC = () => {
     } catch (err: any) {
       alert(err.response?.data?.message || 'Failed to delete task');
       setDeleting(false);
+    } finally {
+      setDeleteModal(false);
     }
   };
 
@@ -85,7 +84,7 @@ const TaskDetailPage: React.FC = () => {
             </button>
             {isOwner && (
               <button
-                onClick={handleDelete}
+                onClick={() => setDeleteModal(true)}
                 disabled={deleting}
                 className="text-sm bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
               >
@@ -124,6 +123,13 @@ const TaskDetailPage: React.FC = () => {
           </div>
         )}
       </div>
+
+      <DeleteConfirmModal
+        isOpen={deleteModal}
+        taskTitle={task.title}
+        onConfirm={handleDeleteConfirm}
+        onCancel={() => setDeleteModal(false)}
+      />
     </div>
   );
 };

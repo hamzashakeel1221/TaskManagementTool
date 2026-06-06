@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
+import DeleteConfirmModal from '../components/DeleteConfirmModal';
 
 interface Task {
   id: number;
@@ -30,6 +31,11 @@ const TaskListPage: React.FC = () => {
   const [filter, setFilter] = useState('');
   const [statusFilter, setStatusFilter] = useState('');
   const [loading, setLoading] = useState(true);
+  const [deleteModal, setDeleteModal] = useState<{ open: boolean; taskId: number | null; taskTitle: string }>({
+    open: false,
+    taskId: null,
+    taskTitle: '',
+  });
   const navigate = useNavigate();
 
   useEffect(() => {
@@ -43,6 +49,28 @@ const TaskListPage: React.FC = () => {
     const matchStatus = statusFilter === '' || t.status === statusFilter;
     return matchSearch && matchStatus;
   });
+
+  const handleDeleteClick = (e: React.MouseEvent, taskId: number, taskTitle: string) => {
+    e.preventDefault();
+    e.stopPropagation();
+    setDeleteModal({ open: true, taskId, taskTitle });
+  };
+
+  const handleDeleteConfirm = async () => {
+    if (!deleteModal.taskId) return;
+    try {
+      await api.delete(`/tasks/${deleteModal.taskId}`);
+      setTasks(prev => prev.filter(t => t.id !== deleteModal.taskId));
+    } catch (err) {
+      console.error('Failed to delete task', err);
+    } finally {
+      setDeleteModal({ open: false, taskId: null, taskTitle: '' });
+    }
+  };
+
+  const handleDeleteCancel = () => {
+    setDeleteModal({ open: false, taskId: null, taskTitle: '' });
+  };
 
   return (
     <div className="p-8">
@@ -109,17 +137,33 @@ const TaskListPage: React.FC = () => {
                     )}
                   </div>
                 </div>
-                <div className="text-right flex-shrink-0">
-                  {task.assignedToName && (
-                    <p className="text-xs text-gray-400">👤 {task.assignedToName}</p>
-                  )}
-                  <p className="text-xs text-gray-300 mt-1">by {task.ownerName}</p>
+                <div className="flex items-center gap-3 flex-shrink-0">
+                  <div className="text-right">
+                    {task.assignedToName && (
+                      <p className="text-xs text-gray-400">👤 {task.assignedToName}</p>
+                    )}
+                    <p className="text-xs text-gray-300 mt-1">by {task.ownerName}</p>
+                  </div>
+                  <button
+                    onClick={(e) => handleDeleteClick(e, task.id, task.title)}
+                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Delete task"
+                  >
+                    🗑️
+                  </button>
                 </div>
               </div>
             </Link>
           ))}
         </div>
       )}
+
+      <DeleteConfirmModal
+        isOpen={deleteModal.open}
+        taskTitle={deleteModal.taskTitle}
+        onConfirm={handleDeleteConfirm}
+        onCancel={handleDeleteCancel}
+      />
     </div>
   );
 };
