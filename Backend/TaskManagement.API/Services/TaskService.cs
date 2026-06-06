@@ -52,7 +52,7 @@ public class TaskService : ITaskService
         {
             Title = dto.Title,
             Description = dto.Description,
-            Priority = dto.Priority,
+            Priority = Enum.Parse<TaskPriority>(dto.Priority),
             CategoryId = dto.CategoryId,
             DueDate = dto.DueDate,
             OwnerId = ownerId,
@@ -63,7 +63,8 @@ public class TaskService : ITaskService
         await _context.SaveChangesAsync();
         _logger.LogInformation("Task created: {Title} by user {UserId}", dto.Title, ownerId);
 
-        return await GetTaskByIdAsync(task.Id, ownerId, true) ?? throw new Exception("Failed to retrieve created task.");
+        return await GetTaskByIdAsync(task.Id, ownerId, true)
+            ?? throw new Exception("Failed to retrieve created task.");
     }
 
     public async Task<TaskResponseDto> UpdateTaskAsync(int id, UpdateTaskDto dto, string userId, bool isAdmin)
@@ -76,8 +77,8 @@ public class TaskService : ITaskService
 
         task.Title = dto.Title;
         task.Description = dto.Description;
-        task.Priority = dto.Priority;
-        task.Status = dto.Status;
+        task.Priority = Enum.Parse<TaskPriority>(dto.Priority);
+        task.Status = Enum.Parse<Models.TaskStatus>(dto.Status);
         task.CategoryId = dto.CategoryId;
         task.DueDate = dto.DueDate;
         task.AssignedToId = dto.AssignedToId;
@@ -86,15 +87,16 @@ public class TaskService : ITaskService
         await _context.SaveChangesAsync();
         _logger.LogInformation("Task {Id} updated by user {UserId}", id, userId);
 
-        return await GetTaskByIdAsync(id, userId, true) ?? throw new Exception("Failed to retrieve updated task.");
+        return await GetTaskByIdAsync(id, userId, true)
+            ?? throw new Exception("Failed to retrieve updated task.");
     }
 
-    public async Task DeleteTaskAsync(int id, string userId, bool isAdmin)
+    public async Task DeleteTaskAsync(int id, string userId)
     {
         var task = await _context.Tasks.FindAsync(id)
             ?? throw new KeyNotFoundException($"Task {id} not found.");
 
-        if (task.OwnerId != userId && !isAdmin)
+        if (task.OwnerId != userId)
             throw new UnauthorizedAccessException("Only the task owner can delete this task.");
 
         _context.Tasks.Remove(task);

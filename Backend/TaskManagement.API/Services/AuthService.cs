@@ -94,7 +94,8 @@ public class AuthService : IAuthService
             user.Email!,
             user.FullName,
             role,
-            expiry
+            expiry,
+            user.Id
         );
     }
 }

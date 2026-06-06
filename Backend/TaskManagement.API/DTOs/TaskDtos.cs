@@ -1,11 +1,9 @@
-﻿using TaskManagement.API.Models;
-
-namespace TaskManagement.API.DTOs;
+﻿namespace TaskManagement.API.DTOs;
 
 public record CreateTaskDto(
     string Title,
     string Description,
-    TaskPriority Priority,
+    string Priority,
     int CategoryId,
     DateTime? DueDate,
     string? AssignedToId
@@ -14,8 +12,8 @@ public record CreateTaskDto(
 public record UpdateTaskDto(
     string Title,
     string Description,
-    TaskPriority Priority,
-    Models.TaskStatus Status,
+    string Priority,
+    string Status,
     int CategoryId,
     DateTime? DueDate,
     string? AssignedToId
