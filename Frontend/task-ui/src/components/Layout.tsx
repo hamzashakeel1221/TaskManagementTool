@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { Link, useLocation, useNavigate } from 'react-router-dom'
 import {
   LayoutDashboard, CheckSquare, User, LogOut,
-  Bell, Search, ChevronRight, Menu, X, Zap
+  Bell, Search, ChevronRight, Menu, Zap
 } from 'lucide-react'
 import { useAuth } from '../context/AuthContext'
 
@@ -29,22 +29,16 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       <aside className={`${collapsed ? 'w-16' : 'w-60'} bg-white border-r border-slate-200 flex flex-col transition-all duration-300 flex-shrink-0 z-20`}>
 
         {/* Logo */}
-        <div className="h-16 flex items-center px-4 border-b border-slate-100 gap-3">
+        <div className="h-16 flex items-center justify-center px-4 border-b border-slate-100">
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
             <Zap size={16} className="text-white" />
           </div>
           {!collapsed && (
-            <div>
+            <div className="ml-3 flex-1 min-w-0">
               <h1 className="text-sm font-bold text-slate-800">TaskManager</h1>
               <p className="text-xs text-slate-400">Pro</p>
             </div>
           )}
-          <button
-            onClick={() => setCollapsed(!collapsed)}
-            className="ml-auto text-slate-400 hover:text-slate-600 transition-colors"
-          >
-            {collapsed ? <Menu size={16} /> : <X size={16} />}
-          </button>
         </div>
 
         {/* Nav */}
@@ -120,8 +114,20 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
 
-        {/* Top header */}
-        <header className="h-16 bg-white border-b border-slate-200 flex items-center px-6 gap-4 flex-shrink-0">
+        {/* Top header — toggle lives here now */}
+        <header className="h-16 bg-white border-b border-slate-200 flex items-center px-4 gap-3 flex-shrink-0">
+
+          {/* Toggle button in header */}
+          <button
+            onClick={() => setCollapsed(!collapsed)}
+            title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
+            className="w-9 h-9 flex items-center justify-center rounded-lg text-slate-400 hover:text-slate-700 hover:bg-slate-100 transition-all duration-200 flex-shrink-0"
+          >
+            <Menu size={18} />
+          </button>
+
+          <div className="w-px h-6 bg-slate-200" />
+
           <div>
             <h2 className="text-base font-semibold text-slate-800">{pageTitle}</h2>
             <p className="text-xs text-slate-400">

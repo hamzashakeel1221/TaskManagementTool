@@ -16,7 +16,7 @@ const TaskFormPage: React.FC = () => {
   const [users, setUsers] = useState<UserOption[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState('');
-  const [isOwner, setIsOwner] = useState(false);
+  const [isOwner, setIsOwner] = useState(!isEdit);
   const [form, setForm] = useState({
     title: '',
     description: '',

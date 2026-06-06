@@ -22,10 +22,26 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
 
   useEffect(() => {
     const stored = localStorage.getItem('user');
-    if (stored) setUser(JSON.parse(stored));
+    if (stored) {
+      try {
+        const parsed: AuthUser = JSON.parse(stored);
+        // Check token expiry on load
+        const payload = JSON.parse(atob(parsed.token.split('.')[1]));
+        if (payload.exp * 1000 < Date.now()) {
+          // Token expired — clear and force login
+          localStorage.clear();
+        } else {
+          setUser(parsed);
+        }
+      } catch {
+        localStorage.clear();
+      }
+    }
   }, []);
 
   const login = (userData: AuthUser) => {
+    // Always clear first to prevent stale data from previous session
+    localStorage.clear();
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
     localStorage.setItem('token', userData.token);
