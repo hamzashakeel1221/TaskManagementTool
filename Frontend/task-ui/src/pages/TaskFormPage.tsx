@@ -117,13 +117,14 @@ const TaskFormPage: React.FC = () => {
         };
         await api.put(`/tasks/${id}`, payload);
       } else {
+        const assignedToId = isAdmin ? form.assignedToId || null : null; // ← extracted
         const payload = {
           title: form.title,
           description: form.description,
           priority: form.priority,
           categoryId: Number(form.categoryId),
           dueDate: form.dueDate || null,
-          assignedToId: isAdmin ? (form.assignedToId || null) : null,
+          assignedToId,
         };
         await api.post('/tasks', payload);
       }
