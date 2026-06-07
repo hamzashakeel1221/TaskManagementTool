@@ -39,12 +39,14 @@ public class AuthService : IAuthService
         if (!result.Succeeded)
         {
             var errors = string.Join(", ", result.Errors.Select(e => e.Description));
-            _logger.LogWarning("Registration failed for {Email}: {Errors}", dto.Email, errors);
+            if (_logger.IsEnabled(LogLevel.Warning))
+                _logger.LogWarning("Registration failed for {Email}: {Errors}", dto.Email, errors);
             throw new InvalidOperationException(errors);
         }
 
         await _userManager.AddToRoleAsync(user, "User");
-        _logger.LogInformation("New user registered: {Email}", dto.Email);
+        if (_logger.IsEnabled(LogLevel.Information))
+            _logger.LogInformation("New user registered: {Email}", dto.Email);
         return await GenerateTokenAsync(user);
     }
 
@@ -53,7 +55,8 @@ public class AuthService : IAuthService
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
         {
-            _logger.LogWarning("Failed login attempt for {Email}", dto.Email);
+            if (_logger.IsEnabled(LogLevel.Warning))
+                _logger.LogWarning("Failed login attempt for {Email}", dto.Email);
             return null;
         }
 
@@ -98,4 +101,3 @@ public class AuthService : IAuthService
         );
     }
 }
-

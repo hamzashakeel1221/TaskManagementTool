@@ -2,7 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
-import { useAuth } from '../context/AuthContext'; // ← ADDED
+import { useAuth } from '../context/AuthContext';
 
 interface Task {
   id: number;
@@ -13,7 +13,7 @@ interface Task {
   dueDate: string | null;
   assignedToName: string | null;
   ownerName: string;
-  ownerId: string; // ← ADDED
+  ownerId: string;
 }
 
 const statusColors: Record<string, string> = {
@@ -39,7 +39,7 @@ const TaskListPage: React.FC = () => {
     taskTitle: '',
   });
   const navigate = useNavigate();
-  const { user } = useAuth(); // ← ADDED
+  const { user } = useAuth();
 
   useEffect(() => {
     api.get('/tasks')
@@ -75,6 +75,69 @@ const TaskListPage: React.FC = () => {
     setDeleteModal({ open: false, taskId: null, taskTitle: '' });
   };
 
+  // Extract task list content to avoid nested ternary
+  const renderContent = () => {
+    if (loading) {
+      return <div className="text-gray-400 text-sm">Loading tasks...</div>;
+    }
+    if (filtered.length === 0) {
+      return (
+        <div className="text-center py-16 text-gray-400">
+          <p className="text-4xl mb-3">📋</p>
+          <p className="text-sm">No tasks found</p>
+        </div>
+      );
+    }
+    return (
+      <div className="space-y-3">
+        {filtered.map(task => (
+          <Link
+            key={task.id}
+            to={`/tasks/${task.id}`}
+            className="block bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:-translate-y-0.5 transition-all"
+          >
+            <div className="flex items-start justify-between gap-4">
+              <div className="flex-1 min-w-0">
+                <p className="font-medium text-gray-800 truncate">{task.title}</p>
+                <div className="flex items-center gap-2 mt-2 flex-wrap">
+                  <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${statusColors[task.status]}`}>
+                    {task.status}
+                  </span>
+                  <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${priorityColors[task.priority]}`}>
+                    {task.priority}
+                  </span>
+                  <span className="text-xs text-gray-400">📁 {task.categoryName}</span>
+                  {task.dueDate && (
+                    <span className="text-xs text-gray-400">
+                      📅 {new Date(task.dueDate + 'Z').toLocaleDateString()}
+                    </span>
+                  )}
+                </div>
+              </div>
+              <div className="flex items-center gap-3 flex-shrink-0">
+                <div className="text-right">
+                  {task.assignedToName && (
+                    <p className="text-xs text-gray-400">👤 {task.assignedToName}</p>
+                  )}
+                  <p className="text-xs text-gray-300 mt-1">by {task.ownerName}</p>
+                </div>
+                {user?.id === task.ownerId && (
+                  <button
+                    onClick={(e) => handleDeleteClick(e, task.id, task.title)}
+                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                    title="Delete task"
+                  >
+                    🗑️
+                  </button>
+                )}
+              </div>
+            </div>
+          </Link>
+        ))}
+      </div>
+    );
+  };
+
   return (
     <div className="p-8">
       <div className="flex items-center justify-between mb-6">
@@ -107,62 +170,7 @@ const TaskListPage: React.FC = () => {
         </select>
       </div>
 
-      {loading ? (
-        <div className="text-gray-400 text-sm">Loading tasks...</div>
-      ) : filtered.length === 0 ? (
-        <div className="text-center py-16 text-gray-400">
-          <p className="text-4xl mb-3">📋</p>
-          <p className="text-sm">No tasks found</p>
-        </div>
-      ) : (
-        <div className="space-y-3">
-          {filtered.map(task => (
-            <Link
-              key={task.id}
-              to={`/tasks/${task.id}`}
-              className="block bg-white border border-gray-200 rounded-xl p-5 hover:shadow-md hover:-translate-y-0.5 transition-all"
-            >
-              <div className="flex items-start justify-between gap-4">
-                <div className="flex-1 min-w-0">
-                  <p className="font-medium text-gray-800 truncate">{task.title}</p>
-                  <div className="flex items-center gap-2 mt-2 flex-wrap">
-                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${statusColors[task.status]}`}>
-                      {task.status}
-                    </span>
-                    <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium ${priorityColors[task.priority]}`}>
-                      {task.priority}
-                    </span>
-                    <span className="text-xs text-gray-400">📁 {task.categoryName}</span>
-                    {task.dueDate && (
-                      <span className="text-xs text-gray-400">
-                        📅 {new Date(task.dueDate + 'Z').toLocaleDateString()}
-                      </span>
-                    )}
-                  </div>
-                </div>
-                <div className="flex items-center gap-3 flex-shrink-0">
-                  <div className="text-right">
-                    {task.assignedToName && (
-                      <p className="text-xs text-gray-400">👤 {task.assignedToName}</p>
-                    )}
-                    <p className="text-xs text-gray-300 mt-1">by {task.ownerName}</p>
-                  </div>
-                  {/* ← CHANGED: only show delete button if current user is the owner */}
-                  {user?.id === task.ownerId && (
-                    <button
-                      onClick={(e) => handleDeleteClick(e, task.id, task.title)}
-                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                      title="Delete task"
-                    >
-                      🗑️
-                    </button>
-                  )}
-                </div>
-              </div>
-            </Link>
-          ))}
-        </div>
-      )}
+      {renderContent()}
 
       <DeleteConfirmModal
         isOpen={deleteModal.open}

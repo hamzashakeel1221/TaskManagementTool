@@ -47,8 +47,6 @@ const TaskFormPage: React.FC = () => {
   const [error, setError] = useState('');
   const [taskOwnerId, setTaskOwnerId] = useState<string | null>(null);
 
-  // In edit mode: only the owner can edit
-  // In create mode: everyone can fill the form
   const isOwner = !isEdit || taskOwnerId === user?.id;
 
   useEffect(() => {
@@ -76,7 +74,6 @@ const TaskFormPage: React.FC = () => {
         const task = res.data;
         setTaskOwnerId(task.ownerId);
 
-        // If admin is not the owner, redirect — admin cannot edit others' tasks
         if (isAdmin && task.ownerId !== user?.id) {
           navigate(`/tasks/${id}`, { replace: true });
           return;
@@ -109,7 +106,6 @@ const TaskFormPage: React.FC = () => {
 
     try {
       if (isEdit) {
-        // Owner submits full form
         const payload = {
           title: form.title,
           description: form.description,
@@ -121,7 +117,6 @@ const TaskFormPage: React.FC = () => {
         };
         await api.put(`/tasks/${id}`, payload);
       } else {
-        // Create — admin can assign, regular user cannot
         const payload = {
           title: form.title,
           description: form.description,
@@ -141,11 +136,13 @@ const TaskFormPage: React.FC = () => {
     }
   };
 
+  // Extract submit button label to avoid nested ternary
+  const submitLabel = loading ? 'Saving...' : isEdit ? 'Update Task' : 'Create Task';
+
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">
       <div className="max-w-2xl mx-auto">
 
-        {/* Header */}
         <div className="mb-6">
           <button
             onClick={() => navigate('/tasks')}
@@ -168,8 +165,9 @@ const TaskFormPage: React.FC = () => {
 
           {/* Title */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
+            <label htmlFor="task-title" className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
             <input
+              id="task-title"
               name="title"
               value={form.title}
               onChange={handleChange}
@@ -181,8 +179,9 @@ const TaskFormPage: React.FC = () => {
 
           {/* Description */}
           <div>
-            <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
+            <label htmlFor="task-description" className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea
+              id="task-description"
               name="description"
               value={form.description}
               onChange={handleChange}
@@ -196,8 +195,9 @@ const TaskFormPage: React.FC = () => {
 
             {/* Priority */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
+              <label htmlFor="task-priority" className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
               <select
+                id="task-priority"
                 name="priority"
                 value={form.priority}
                 onChange={handleChange}
@@ -212,8 +212,9 @@ const TaskFormPage: React.FC = () => {
             {/* Status — shown in edit mode only */}
             {isEdit && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
+                <label htmlFor="task-status" className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select
+                  id="task-status"
                   name="status"
                   value={form.status}
                   onChange={handleChange}
@@ -228,8 +229,9 @@ const TaskFormPage: React.FC = () => {
 
             {/* Category */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
+              <label htmlFor="task-category" className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
               <select
+                id="task-category"
                 name="categoryId"
                 value={form.categoryId}
                 onChange={handleChange}
@@ -245,8 +247,9 @@ const TaskFormPage: React.FC = () => {
 
             {/* Due Date */}
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
+              <label htmlFor="task-duedate" className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
               <input
+                id="task-duedate"
                 type="date"
                 name="dueDate"
                 value={form.dueDate}
@@ -256,13 +259,14 @@ const TaskFormPage: React.FC = () => {
             </div>
           </div>
 
-          {/* Assign To — admin only, and only when admin is the owner (or creating) */}
+          {/* Assign To — admin only */}
           {isAdmin && isOwner && (
             <div>
-              <label className="block text-sm font-medium text-gray-700 mb-1">
+              <label htmlFor="task-assignedto" className="block text-sm font-medium text-gray-700 mb-1">
                 Assign To <span className="text-xs text-violet-500 font-normal">(Admin only)</span>
               </label>
               <select
+                id="task-assignedto"
                 name="assignedToId"
                 value={form.assignedToId}
                 onChange={handleChange}
@@ -283,7 +287,7 @@ const TaskFormPage: React.FC = () => {
               disabled={loading}
               className="flex-1 bg-violet-600 text-white py-2 rounded-lg font-medium hover:bg-violet-700 transition-colors disabled:opacity-50 text-sm"
             >
-              {loading ? 'Saving...' : isEdit ? 'Update Task' : 'Create Task'}
+              {submitLabel}
             </button>
             <button
               type="button"
