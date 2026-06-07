@@ -55,11 +55,11 @@ builder.Services.AddAuthentication(options =>
 
 builder.Services.AddAuthorization();
 
-// CORS - allow Vite frontend
+// CORS - restrict to known frontend origins only
 builder.Services.AddCors(options =>
 {
     options.AddPolicy("AllowReact", policy =>
-        policy.AllowAnyOrigin()
+        policy.WithOrigins("http://localhost:5173", "http://localhost:3000")
               .AllowAnyHeader()
               .AllowAnyMethod());
 });
@@ -74,11 +74,11 @@ builder.Services.AddOpenApi();
 
 var app = builder.Build();
 
-// Seed DB
+// Seed DB - use async version to avoid blocking
 using (var scope = app.Services.CreateScope())
 {
     var db = scope.ServiceProvider.GetRequiredService<AppDbContext>();
-    db.Database.EnsureCreated();
+    await db.Database.EnsureCreatedAsync(); // ← fixed: was EnsureCreated()
     await DbSeeder.SeedRolesAndAdminAsync(scope.ServiceProvider);
 }
 
@@ -91,4 +91,4 @@ app.UseAuthentication();
 app.UseAuthorization();
 app.MapControllers();
 
-app.Run();
+await app.RunAsync(); // ← fixed: was app.Run()

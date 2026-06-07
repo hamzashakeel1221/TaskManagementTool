@@ -12,12 +12,10 @@ namespace TaskManagement.API.Controllers;
 public class TasksController : ControllerBase
 {
     private readonly ITaskService _taskService;
-    private readonly ILogger<TasksController> _logger;
 
-    public TasksController(ITaskService taskService, ILogger<TasksController> logger)
+    public TasksController(ITaskService taskService)
     {
         _taskService = taskService;
-        _logger = logger;
     }
 
     private string UserId => User.FindFirstValue(ClaimTypes.NameIdentifier)!;
@@ -40,7 +38,7 @@ public class TasksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTaskDto dto)
     {
-        var task = await _taskService.CreateTaskAsync(dto, UserId, IsAdmin); // IsAdmin passed
+        var task = await _taskService.CreateTaskAsync(dto, UserId, IsAdmin);
         return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
     }
 

@@ -9,12 +9,10 @@ namespace TaskManagement.API.Controllers;
 public class AuthController : ControllerBase
 {
     private readonly IAuthService _authService;
-    private readonly ILogger<AuthController> _logger;
 
-    public AuthController(IAuthService authService, ILogger<AuthController> logger)
+    public AuthController(IAuthService authService)
     {
         _authService = authService;
-        _logger = logger;
     }
 
     [HttpPost("register")]
@@ -29,7 +27,7 @@ public class AuthController : ControllerBase
     {
         var result = await _authService.LoginAsync(dto);
         if (result == null)
-            return Unauthorized(new { message = "Invalid email or password." }); 
+            return Unauthorized(new { message = "Invalid email or password." });
 
         return Ok(result);
     }

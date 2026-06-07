@@ -6,6 +6,14 @@ import { useAuth } from '../context/AuthContext'
 
 interface Stats { total: number; pending: number; inProgress: number; completed: number }
 
+// ← FIXED: extracted nested ternary into a reusable function
+const getGreeting = (): string => {
+  const hour = new Date().getHours()
+  if (hour < 12) return 'morning'
+  if (hour < 17) return 'afternoon'
+  return 'evening'
+}
+
 const DashboardPage: React.FC = () => {
   const [stats, setStats] = useState<Stats | null>(null)
   const [recentTasks, setRecentTasks] = useState<any[]>([])
@@ -46,20 +54,21 @@ const DashboardPage: React.FC = () => {
     ? Math.round((stats.completed / stats.total) * 100)
     : 0
 
+  const pendingMessage = user?.role === 'Admin'
+    ? 'You have full access to all tasks and team management.'
+    : `You have ${stats?.pending ?? 0} pending tasks waiting for you.`
+
   return (
     <div className="p-6 space-y-6">
 
       {/* Welcome banner */}
       <div className="bg-gradient-to-r from-blue-600 to-indigo-600 rounded-2xl p-6 flex items-center justify-between">
         <div>
+          {/* ← FIXED: no more nested ternary, using extracted getGreeting() */}
           <h2 className="text-xl font-bold text-white mb-1">
-            Good {new Date().getHours() < 12 ? 'morning' : new Date().getHours() < 17 ? 'afternoon' : 'evening'}, {user?.fullName?.split(' ')[0]} 👋
+            Good {getGreeting()}, {user?.fullName?.split(' ')[0]} 👋
           </h2>
-          <p className="text-blue-100 text-sm">
-            {user?.role === 'Admin'
-              ? 'You have full access to all tasks and team management.'
-              : `You have ${stats?.pending ?? 0} pending tasks waiting for you.`}
-          </p>
+          <p className="text-blue-100 text-sm">{pendingMessage}</p>
         </div>
         <button
           onClick={() => navigate('/tasks/new')}
@@ -110,10 +119,12 @@ const DashboardPage: React.FC = () => {
             {recentTasks.length === 0 ? (
               <div className="px-6 py-10 text-center text-slate-400 text-sm">No tasks yet</div>
             ) : recentTasks.map(task => (
-              <div
+              // ← FIXED: replaced div with button for proper interactive element accessibility
+              <button
                 key={task.id}
                 onClick={() => navigate(`/tasks/${task.id}`)}
-                className="flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 cursor-pointer transition-colors"
+                onKeyDown={e => e.key === 'Enter' && navigate(`/tasks/${task.id}`)}
+                className="w-full flex items-center gap-4 px-6 py-3.5 hover:bg-slate-50 cursor-pointer transition-colors text-left"
               >
                 <div className="flex-1 min-w-0">
                   <p className="text-sm font-medium text-slate-700 truncate">{task.title}</p>
@@ -127,7 +138,7 @@ const DashboardPage: React.FC = () => {
                     {task.status}
                   </span>
                 </div>
-              </div>
+              </button>
             ))}
           </div>
         </div>

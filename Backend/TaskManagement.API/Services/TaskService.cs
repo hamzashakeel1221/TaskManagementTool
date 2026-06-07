@@ -40,7 +40,6 @@ public class TaskService : ITaskService
 
         if (task == null) return null;
 
-        // Admin can view all tasks; user can only view own or assigned tasks
         if (!isAdmin && task.OwnerId != userId && task.AssignedToId != userId)
             throw new UnauthorizedAccessException("You do not have permission to view this task.");
 
@@ -49,8 +48,9 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto> CreateTaskAsync(CreateTaskDto dto, string ownerId, bool isAdmin)
     {
-        var category = await _context.Categories.FindAsync(dto.CategoryId)
-            ?? throw new KeyNotFoundException($"Category {dto.CategoryId} not found.");
+        // Validate category exists without storing unused variable
+        if (!await _context.Categories.AnyAsync(c => c.Id == dto.CategoryId))
+            throw new KeyNotFoundException($"Category {dto.CategoryId} not found.");
 
         var task = new TaskItem
         {
@@ -62,7 +62,6 @@ public class TaskService : ITaskService
             OwnerId = ownerId,
             CreatedAt = DateTime.UtcNow,
             UpdatedAt = DateTime.UtcNow,
-            // Only admin can assign task to others; regular user cannot assign
             AssignedToId = isAdmin ? dto.AssignedToId : null
         };
 
@@ -74,7 +73,9 @@ public class TaskService : ITaskService
         if (task.AssignedToId != null)
             await _context.Entry(task).Reference(t => t.AssignedTo).LoadAsync();
 
-        _logger.LogInformation("Task '{Title}' created by user {UserId}", task.Title, ownerId);
+        if (_logger.IsEnabled(LogLevel.Information))
+            _logger.LogInformation("Task '{Title}' created by user {UserId}", task.Title, ownerId);
+
         return MapToDto(task);
     }
 
@@ -90,30 +91,27 @@ public class TaskService : ITaskService
         bool isOwner = task.OwnerId == userId;
         bool isAssigned = task.AssignedToId == userId;
 
-        // Admin cannot edit tasks they don't own — only the owner can edit
-        // Assigned user can only update status
         if (!isOwner && !isAssigned)
             throw new UnauthorizedAccessException("You do not have permission to edit this task.");
 
         if (isOwner)
         {
-            // Owner can edit all fields
             if (dto.Title != null) task.Title = dto.Title;
             if (dto.Description != null) task.Description = dto.Description;
             if (dto.Priority != null) task.Priority = Enum.Parse<TaskPriority>(dto.Priority, true);
             if (dto.CategoryId != null) task.CategoryId = dto.CategoryId.Value;
             task.DueDate = dto.DueDate;
-            // Only the owner can reassign — no one else
             task.AssignedToId = dto.AssignedToId;
         }
 
-        // Both owner and assigned user can update status
         task.Status = Enum.Parse<Models.TaskStatus>(dto.Status, true);
         task.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
 
-        _logger.LogInformation("Task {TaskId} updated by user {UserId}", id, userId);
+        if (_logger.IsEnabled(LogLevel.Information))
+            _logger.LogInformation("Task {TaskId} updated by user {UserId}", id, userId);
+
         return MapToDto(task);
     }
 
@@ -122,14 +120,14 @@ public class TaskService : ITaskService
         var task = await _context.Tasks.FindAsync(id)
             ?? throw new KeyNotFoundException($"Task {id} not found.");
 
-        // Only the task owner can delete — admin cannot delete others' tasks
         if (task.OwnerId != userId)
             throw new UnauthorizedAccessException("Only the task owner can delete this task.");
 
         _context.Tasks.Remove(task);
         await _context.SaveChangesAsync();
 
-        _logger.LogInformation("Task {TaskId} deleted by user {UserId}", id, userId);
+        if (_logger.IsEnabled(LogLevel.Information))
+            _logger.LogInformation("Task {TaskId} deleted by user {UserId}", id, userId);
     }
 
     private static TaskResponseDto MapToDto(TaskItem t) => new()

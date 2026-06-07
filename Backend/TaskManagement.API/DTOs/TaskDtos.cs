@@ -1,10 +1,12 @@
-﻿namespace TaskManagement.API.DTOs;
+﻿using System.Text.Json.Serialization;
+
+namespace TaskManagement.API.DTOs;
 
 public record CreateTaskDto(
-    string Title,
-    string Description,
-    string Priority,
-    int CategoryId,
+    [property: JsonRequired] string Title,
+    [property: JsonRequired] string Description,
+    [property: JsonRequired] string Priority,
+    [property: JsonRequired] int CategoryId,
     DateTime? DueDate,
     string? AssignedToId
 );
@@ -13,7 +15,7 @@ public record UpdateTaskDto(
     string? Title,
     string? Description,
     string? Priority,
-    string Status,
+    [property: JsonRequired] string Status,
     int? CategoryId,
     DateTime? DueDate,
     string? AssignedToId

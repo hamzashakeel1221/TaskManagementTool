@@ -22,6 +22,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
   const pageTitle = navItems.find(n => location.pathname.startsWith(n.path))?.label ?? 'TaskManager'
 
+  // ← FIXED: extracted negated condition into a clear variable
+  const isExpanded = !collapsed
+
   return (
     <div className="flex h-screen bg-slate-50 overflow-hidden">
 
@@ -33,7 +36,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           <div className="w-8 h-8 bg-blue-600 rounded-lg flex items-center justify-center flex-shrink-0">
             <Zap size={16} className="text-white" />
           </div>
-          {!collapsed && (
+          {isExpanded && (
             <div className="ml-3 flex-1 min-w-0">
               <h1 className="text-sm font-bold text-slate-800">TaskManager</h1>
               <p className="text-xs text-slate-400">Pro</p>
@@ -56,8 +59,8 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
                 }`}
               >
                 <Icon size={18} className={active ? 'text-blue-600' : 'text-slate-400 group-hover:text-slate-600'} />
-                {!collapsed && <span>{label}</span>}
-                {active && !collapsed && (
+                {isExpanded && <span>{label}</span>}
+                {active && isExpanded && (
                   <ChevronRight size={14} className="ml-auto text-blue-400" />
                 )}
                 {collapsed && (
@@ -72,7 +75,7 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
 
         {/* User section */}
         <div className="p-3 border-t border-slate-100">
-          {!collapsed ? (
+          {isExpanded ? (
             <div className="bg-slate-50 rounded-xl p-3">
               <div className="flex items-center gap-3 mb-3">
                 <div className="w-8 h-8 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold flex-shrink-0">
@@ -114,10 +117,9 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
       {/* Main area */}
       <div className="flex-1 flex flex-col overflow-hidden">
 
-        {/* Top header — toggle lives here now */}
+        {/* Top header */}
         <header className="h-16 bg-white border-b border-slate-200 flex items-center px-4 gap-3 flex-shrink-0">
 
-          {/* Toggle button in header */}
           <button
             onClick={() => setCollapsed(!collapsed)}
             title={collapsed ? 'Expand sidebar' : 'Collapse sidebar'}
@@ -136,7 +138,6 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
           </div>
 
           <div className="ml-auto flex items-center gap-3">
-            {/* Search bar */}
             <div className="flex items-center gap-2 bg-slate-100 rounded-lg px-3 py-2 w-52">
               <Search size={14} className="text-slate-400" />
               <input
@@ -146,14 +147,15 @@ const Layout: React.FC<{ children: React.ReactNode }> = ({ children }) => {
               />
             </div>
 
-            {/* Notification bell */}
-            <button className="relative w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors">
+            <button
+              aria-label="Notifications"
+              className="relative w-9 h-9 flex items-center justify-center rounded-lg hover:bg-slate-100 transition-colors"
+            >
               <Bell size={18} className="text-slate-500" />
               <span className="absolute top-1.5 right-1.5 w-2 h-2 bg-red-500 rounded-full"></span>
             </button>
 
-            {/* Avatar */}
-            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold cursor-pointer">
+            <div className="w-9 h-9 rounded-full bg-gradient-to-br from-blue-500 to-indigo-600 flex items-center justify-center text-white text-sm font-semibold">
               {user?.fullName?.charAt(0).toUpperCase()}
             </div>
           </div>

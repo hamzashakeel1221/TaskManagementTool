@@ -77,10 +77,14 @@ const RegisterPage: React.FC = () => {
 
           <form onSubmit={handleSubmit} className="space-y-4">
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Full Name</label>
+              {/* ← FIXED: added htmlFor and id */}
+              <label htmlFor="reg-fullName" className="block text-sm font-medium text-slate-700 mb-1.5">
+                Full Name
+              </label>
               <div className="relative">
                 <User size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
+                  id="reg-fullName"
                   name="fullName"
                   value={form.fullName}
                   onChange={handleChange}
@@ -92,10 +96,14 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Email address</label>
+              {/* ← FIXED: added htmlFor and id */}
+              <label htmlFor="reg-email" className="block text-sm font-medium text-slate-700 mb-1.5">
+                Email address
+              </label>
               <div className="relative">
                 <Mail size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
+                  id="reg-email"
                   type="email"
                   name="email"
                   value={form.email}
@@ -108,10 +116,14 @@ const RegisterPage: React.FC = () => {
             </div>
 
             <div>
-              <label className="block text-sm font-medium text-slate-700 mb-1.5">Password</label>
+              {/* ← FIXED: added htmlFor and id */}
+              <label htmlFor="reg-password" className="block text-sm font-medium text-slate-700 mb-1.5">
+                Password
+              </label>
               <div className="relative">
                 <Lock size={16} className="absolute left-3.5 top-1/2 -translate-y-1/2 text-slate-400" />
                 <input
+                  id="reg-password"
                   type={showPass ? 'text' : 'password'}
                   name="password"
                   value={form.password}
@@ -123,6 +135,7 @@ const RegisterPage: React.FC = () => {
                 <button
                   type="button"
                   onClick={() => setShowPass(!showPass)}
+                  aria-label={showPass ? 'Hide password' : 'Show password'}
                   className="absolute right-3.5 top-1/2 -translate-y-1/2 text-slate-400 hover:text-slate-600"
                 >
                   {showPass ? <EyeOff size={16} /> : <Eye size={16} />}

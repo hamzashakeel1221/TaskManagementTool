@@ -1,4 +1,4 @@
-import React, { createContext, useContext, useState, useEffect } from 'react';
+import React, { createContext, useContext, useState, useEffect, useMemo } from 'react';
 
 interface AuthUser {
   token: string;
@@ -25,10 +25,8 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     if (stored) {
       try {
         const parsed: AuthUser = JSON.parse(stored);
-        // Check token expiry on load
         const payload = JSON.parse(atob(parsed.token.split('.')[1]));
         if (payload.exp * 1000 < Date.now()) {
-          // Token expired — clear and force login
           localStorage.clear();
         } else {
           setUser(parsed);
@@ -40,7 +38,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
   }, []);
 
   const login = (userData: AuthUser) => {
-    // Always clear first to prevent stale data from previous session
     localStorage.clear();
     setUser(userData);
     localStorage.setItem('user', JSON.stringify(userData));
@@ -52,8 +49,14 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({ children
     localStorage.clear();
   };
 
+  // ← FIXED: wrap in useMemo so the context value object doesn't change every render
+  const value = useMemo<AuthContextType>(
+    () => ({ user, login, logout, isAdmin: user?.role === 'Admin' }),
+    [user]
+  );
+
   return (
-    <AuthContext.Provider value={{ user, login, logout, isAdmin: user?.role === 'Admin' }}>
+    <AuthContext.Provider value={value}>
       {children}
     </AuthContext.Provider>
   );
