@@ -133,7 +133,7 @@ public class TaskServiceTests
             AssignedToId: null
         );
 
-        var result = await service.CreateTaskAsync(dto, "owner1");
+        var result = await service.CreateTaskAsync(dto, "owner1", false);
 
         result.Should().NotBeNull();
         result.Title.Should().Be("New Task");
