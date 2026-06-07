@@ -40,7 +40,7 @@ public class TasksController : ControllerBase
     [HttpPost]
     public async Task<IActionResult> Create([FromBody] CreateTaskDto dto)
     {
-        var task = await _taskService.CreateTaskAsync(dto, UserId);
+        var task = await _taskService.CreateTaskAsync(dto, UserId, IsAdmin); // IsAdmin passed
         return CreatedAtAction(nameof(GetById), new { id = task.Id }, task);
     }
 

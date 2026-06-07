@@ -3,21 +3,35 @@ import { useNavigate, useParams } from 'react-router-dom';
 import api from '../api/axios';
 import { useAuth } from '../context/AuthContext';
 
-interface Category { id: number; name: string; }
-interface UserOption { id: string; fullName: string; email: string; }
+interface Category {
+  id: number;
+  name: string;
+}
+
+interface UserOption {
+  id: string;
+  fullName: string;
+}
+
+interface TaskForm {
+  title: string;
+  description: string;
+  priority: string;
+  status: string;
+  categoryId: string;
+  dueDate: string;
+  assignedToId: string;
+}
 
 const TaskFormPage: React.FC = () => {
-  const { id } = useParams<{ id?: string }>();
-  const isEdit = Boolean(id);
+  const { id } = useParams<{ id: string }>();
   const navigate = useNavigate();
-  const { isAdmin, user } = useAuth();
+  const { user } = useAuth();
 
-  const [categories, setCategories] = useState<Category[]>([]);
-  const [users, setUsers] = useState<UserOption[]>([]);
-  const [loading, setLoading] = useState(false);
-  const [error, setError] = useState('');
-  const [isOwner, setIsOwner] = useState(!isEdit);
-  const [form, setForm] = useState({
+  const isEdit = Boolean(id);
+  const isAdmin = user?.role === 'Admin';
+
+  const [form, setForm] = useState<TaskForm>({
     title: '',
     description: '',
     priority: 'Medium',
@@ -27,93 +41,132 @@ const TaskFormPage: React.FC = () => {
     assignedToId: '',
   });
 
-  useEffect(() => {
-    api.get('/categories').then(res => setCategories(res.data));
-    if (isAdmin) api.get('/users').then(res => setUsers(res.data));
-    if (isEdit) {
-      api.get(`/tasks/${id}`).then(res => {
-        const t = res.data;
-        setIsOwner(t.ownerId === user?.id);
-        setForm({
-          title: t.title,
-          description: t.description,
-          priority: t.priority,
-          status: t.status,
-          categoryId: String(t.categoryId),
-          dueDate: t.dueDate ? t.dueDate.split('T')[0] : '',
-          assignedToId: t.assignedToId || '',
-        });
-      });
-    }
-  }, [id, isEdit, isAdmin, user]);
+  const [categories, setCategories] = useState<Category[]>([]);
+  const [users, setUsers] = useState<UserOption[]>([]);
+  const [loading, setLoading] = useState(false);
+  const [error, setError] = useState('');
+  const [taskOwnerId, setTaskOwnerId] = useState<string | null>(null);
 
-  const handleChange = (
-    e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
-  ) => setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  // In edit mode: only the owner can edit
+  // In create mode: everyone can fill the form
+  const isOwner = !isEdit || taskOwnerId === user?.id;
+
+  useEffect(() => {
+    const fetchData = async () => {
+      try {
+        const [catRes, usersRes] = await Promise.all([
+          api.get('/categories'),
+          isAdmin ? api.get('/users') : Promise.resolve({ data: [] }),
+        ]);
+        setCategories(catRes.data);
+        setUsers(usersRes.data);
+      } catch {
+        // categories or users failed to load
+      }
+    };
+    fetchData();
+  }, [isAdmin]);
+
+  useEffect(() => {
+    if (!isEdit) return;
+
+    const fetchTask = async () => {
+      try {
+        const res = await api.get(`/tasks/${id}`);
+        const task = res.data;
+        setTaskOwnerId(task.ownerId);
+
+        // If admin is not the owner, redirect — admin cannot edit others' tasks
+        if (isAdmin && task.ownerId !== user?.id) {
+          navigate(`/tasks/${id}`, { replace: true });
+          return;
+        }
+
+        setForm({
+          title: task.title || '',
+          description: task.description || '',
+          priority: task.priority || 'Medium',
+          status: task.status || 'Pending',
+          categoryId: task.categoryId?.toString() || '',
+          dueDate: task.dueDate ? task.dueDate.split('T')[0] : '',
+          assignedToId: task.assignedToId || '',
+        });
+      } catch {
+        setError('Failed to load task.');
+      }
+    };
+    fetchTask();
+  }, [id, isEdit, isAdmin, user?.id, navigate]);
+
+  const handleChange = (e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>) => {
+    setForm(prev => ({ ...prev, [e.target.name]: e.target.value }));
+  };
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
     setLoading(true);
     setError('');
 
-    // If user is not owner and not admin, only send status
-    const payload = isOwner || isAdmin
-      ? {
-          ...form,
-          categoryId: parseInt(form.categoryId),
-          dueDate: form.dueDate || null,
-          assignedToId: form.assignedToId || null,
-        }
-      : { status: form.status };
-
     try {
       if (isEdit) {
+        // Owner submits full form
+        const payload = {
+          title: form.title,
+          description: form.description,
+          priority: form.priority,
+          status: form.status,
+          categoryId: Number(form.categoryId),
+          dueDate: form.dueDate || null,
+          assignedToId: form.assignedToId || null,
+        };
         await api.put(`/tasks/${id}`, payload);
       } else {
+        // Create — admin can assign, regular user cannot
+        const payload = {
+          title: form.title,
+          description: form.description,
+          priority: form.priority,
+          categoryId: Number(form.categoryId),
+          dueDate: form.dueDate || null,
+          assignedToId: isAdmin ? (form.assignedToId || null) : null,
+        };
         await api.post('/tasks', payload);
       }
+
       navigate('/tasks');
     } catch (err: any) {
-      setError(err.response?.data?.message || 'Failed to save task');
+      setError(err.response?.data?.message || 'Failed to save task.');
     } finally {
       setLoading(false);
     }
   };
 
-  const inputClass = "w-full px-4 py-2.5 border border-gray-300 rounded-lg text-sm focus:outline-none focus:ring-2 focus:ring-blue-500 focus:border-transparent";
-  const disabledClass = "w-full px-4 py-2.5 border border-gray-200 rounded-lg text-sm bg-gray-50 text-gray-400 cursor-not-allowed";
-
-  // user can edit everything, assigned non-owner user can only edit status
-  const canEditAll = isOwner || isAdmin;
-
   return (
-    <div className="p-8 max-w-2xl">
-      <button
-        onClick={() => navigate('/tasks')}
-        className="text-sm text-blue-600 hover:underline mb-5 flex items-center gap-1"
-      >
-        ← Back to Tasks
-      </button>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-2xl mx-auto">
 
-      <div className="flex items-center justify-between mb-6">
-        <h2 className="text-2xl font-semibold text-gray-800">
-          {isEdit ? 'Edit Task' : 'Create New Task'}
-        </h2>
-        {isEdit && !canEditAll && (
-          <span className="text-xs bg-amber-50 border border-amber-200 text-amber-700 px-3 py-1.5 rounded-lg">
-            You can only update the status of this task
-          </span>
-        )}
-      </div>
-
-      {error && (
-        <div className="bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg mb-5 text-sm">
-          {error}
+        {/* Header */}
+        <div className="mb-6">
+          <button
+            onClick={() => navigate('/tasks')}
+            className="text-gray-500 hover:text-gray-700 text-sm mb-4 flex items-center gap-1"
+          >
+            ← Back to Tasks
+          </button>
+          <h1 className="text-2xl font-bold text-gray-900">
+            {isEdit ? 'Edit Task' : 'Create New Task'}
+          </h1>
         </div>
-      )}
 
-      <div className="bg-white border border-gray-200 rounded-xl p-7">
-        <form onSubmit={handleSubmit} className="space-y-5">
+        {error && (
+          <div className="mb-4 p-3 bg-red-50 border border-red-200 rounded-lg text-red-600 text-sm">
+            {error}
+          </div>
+        )}
+
+        <form onSubmit={handleSubmit} className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6 space-y-5">
+
+          {/* Title */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Title *</label>
             <input
@@ -121,53 +174,50 @@ const TaskFormPage: React.FC = () => {
               value={form.title}
               onChange={handleChange}
               required
-              disabled={!canEditAll}
-              className={canEditAll ? inputClass : disabledClass}
-              placeholder="Task title"
+              placeholder="Enter task title"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
             />
           </div>
 
+          {/* Description */}
           <div>
             <label className="block text-sm font-medium text-gray-700 mb-1">Description</label>
             <textarea
               name="description"
               value={form.description}
               onChange={handleChange}
-              rows={4}
-              disabled={!canEditAll}
-              className={canEditAll ? inputClass : disabledClass}
-              placeholder="Describe the task..."
+              rows={3}
+              placeholder="Enter task description"
+              className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500 resize-none"
             />
           </div>
 
-          <div className="grid grid-cols-2 gap-4">
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+
+            {/* Priority */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Priority</label>
               <select
                 name="priority"
                 value={form.priority}
                 onChange={handleChange}
-                disabled={!canEditAll}
-                className={canEditAll ? inputClass : disabledClass}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
               >
-                <option>Low</option>
-                <option>Medium</option>
-                <option>High</option>
+                <option value="Low">Low</option>
+                <option value="Medium">Medium</option>
+                <option value="High">High</option>
               </select>
             </div>
+
+            {/* Status — shown in edit mode only */}
             {isEdit && (
               <div>
-                <label className="block text-sm font-medium text-gray-700 mb-1">
-                  Status
-                  {!canEditAll && (
-                    <span className="ml-1 text-xs text-blue-500 font-normal">(editable)</span>
-                  )}
-                </label>
+                <label className="block text-sm font-medium text-gray-700 mb-1">Status</label>
                 <select
                   name="status"
                   value={form.status}
                   onChange={handleChange}
-                  className={inputClass}
+                  className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
                 >
                   <option value="Pending">Pending</option>
                   <option value="InProgress">In Progress</option>
@@ -175,9 +225,8 @@ const TaskFormPage: React.FC = () => {
                 </select>
               </div>
             )}
-          </div>
 
-          <div className="grid grid-cols-2 gap-4">
+            {/* Category */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Category *</label>
               <select
@@ -185,8 +234,7 @@ const TaskFormPage: React.FC = () => {
                 value={form.categoryId}
                 onChange={handleChange}
                 required
-                disabled={!canEditAll}
-                className={canEditAll ? inputClass : disabledClass}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
               >
                 <option value="">Select category</option>
                 {categories.map(c => (
@@ -194,6 +242,8 @@ const TaskFormPage: React.FC = () => {
                 ))}
               </select>
             </div>
+
+            {/* Due Date */}
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">Due Date</label>
               <input
@@ -201,40 +251,46 @@ const TaskFormPage: React.FC = () => {
                 name="dueDate"
                 value={form.dueDate}
                 onChange={handleChange}
-                disabled={!canEditAll}
-                className={canEditAll ? inputClass : disabledClass}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
               />
             </div>
           </div>
 
-          {isAdmin && (
+          {/* Assign To — admin only, and only when admin is the owner (or creating) */}
+          {isAdmin && isOwner && (
             <div>
               <label className="block text-sm font-medium text-gray-700 mb-1">
-                Assign To <span className="text-xs text-indigo-500 font-normal">(Admin only)</span>
+                Assign To <span className="text-xs text-violet-500 font-normal">(Admin only)</span>
               </label>
-              <select name="assignedToId" value={form.assignedToId} onChange={handleChange} className={inputClass}>
+              <select
+                name="assignedToId"
+                value={form.assignedToId}
+                onChange={handleChange}
+                className="w-full border border-gray-200 rounded-lg px-3 py-2 text-sm focus:outline-none focus:ring-2 focus:ring-violet-500"
+              >
                 <option value="">Unassigned</option>
                 {users.map(u => (
-                  <option key={u.id} value={u.id}>{u.fullName} ({u.email})</option>
+                  <option key={u.id} value={u.id}>{u.fullName}</option>
                 ))}
               </select>
             </div>
           )}
 
-          <div className="flex gap-3 justify-end pt-2">
-            <button
-              type="button"
-              onClick={() => navigate('/tasks')}
-              className="px-5 py-2.5 text-sm border border-gray-300 rounded-lg text-gray-600 hover:bg-gray-50 transition-colors"
-            >
-              Cancel
-            </button>
+          {/* Actions */}
+          <div className="flex gap-3 pt-2">
             <button
               type="submit"
               disabled={loading}
-              className="px-5 py-2.5 text-sm bg-blue-600 hover:bg-blue-700 disabled:opacity-60 text-white rounded-lg transition-colors font-medium"
+              className="flex-1 bg-violet-600 text-white py-2 rounded-lg font-medium hover:bg-violet-700 transition-colors disabled:opacity-50 text-sm"
             >
               {loading ? 'Saving...' : isEdit ? 'Update Task' : 'Create Task'}
+            </button>
+            <button
+              type="button"
+              onClick={() => navigate('/tasks')}
+              className="px-4 py-2 border border-gray-200 text-gray-600 rounded-lg hover:bg-gray-50 transition-colors text-sm"
+            >
+              Cancel
             </button>
           </div>
         </form>

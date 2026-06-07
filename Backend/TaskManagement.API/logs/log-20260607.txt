@@ -1558,3 +1558,904 @@
 2026-06-07 11:46:03.136 +05:00 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0802 ms
 2026-06-07 11:46:03.143 +05:00 [INF] HTTP GET /api/tasks responded 200 in 3.3743 ms
 2026-06-07 11:46:03.149 +05:00 [INF] HTTP GET /api/tasks responded 200 in 4.2997 ms
+2026-06-07 12:42:09 [INF] HTTP OPTIONS /api/auth/register responded 204 in 8.2546 ms
+2026-06-07 12:42:10 [INF] New user registered: haider1@gmail.com
+2026-06-07 12:42:10 [INF] HTTP POST /api/auth/register responded 200 in 878.8755 ms
+2026-06-07 12:42:10 [INF] HTTP OPTIONS /api/dashboard responded 204 in 1.3642 ms
+2026-06-07 12:42:10 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0352 ms
+2026-06-07 12:42:10 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0860 ms
+2026-06-07 12:42:10 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0670 ms
+2026-06-07 12:42:10 [INF] HTTP GET /api/dashboard responded 200 in 478.3224 ms
+2026-06-07 12:42:10 [INF] HTTP GET /api/tasks responded 200 in 465.4873 ms
+2026-06-07 12:42:10 [INF] HTTP GET /api/tasks responded 200 in 34.1141 ms
+2026-06-07 12:42:10 [INF] HTTP GET /api/dashboard responded 200 in 69.7357 ms
+2026-06-07 12:43:39 [INF] HTTP OPTIONS /api/auth/register responded 204 in 0.7686 ms
+2026-06-07 12:43:39 [WRN] Registration failed for Ali1@gmail.com: Passwords must be at least 8 characters.
+2026-06-07 12:51:35 [INF] HTTP OPTIONS /api/auth/register responded 204 in 11.2223 ms
+2026-06-07 12:51:35 [WRN] Registration failed for Ali1@gmail.com: Passwords must be at least 8 characters.
+2026-06-07 12:51:46 [ERR] HTTP POST /api/auth/register responded 500 in 11604.5656 ms
+System.InvalidOperationException: Passwords must be at least 8 characters.
+   at TaskManagement.API.Services.AuthService.RegisterAsync(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Services\AuthService.cs:line 43
+   at TaskManagement.API.Controllers.AuthController.Register(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Controllers\AuthController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-07 12:51:46 [WRN] Invalid operation.
+System.InvalidOperationException: Passwords must be at least 8 characters.
+   at TaskManagement.API.Services.AuthService.RegisterAsync(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Services\AuthService.cs:line 43
+   at TaskManagement.API.Controllers.AuthController.Register(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Controllers\AuthController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TaskManagement.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 12:52:15 [INF] HTTP OPTIONS /api/auth/register responded 204 in 0.8976 ms
+2026-06-07 12:52:16 [INF] New user registered: kamran1@gmail.com
+2026-06-07 12:52:16 [INF] HTTP POST /api/auth/register responded 200 in 885.4258 ms
+2026-06-07 12:52:16 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1116 ms
+2026-06-07 12:52:16 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0942 ms
+2026-06-07 12:52:16 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1842 ms
+2026-06-07 12:52:16 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1724 ms
+2026-06-07 12:52:16 [INF] HTTP GET /api/dashboard responded 200 in 222.5586 ms
+2026-06-07 12:52:16 [INF] HTTP GET /api/dashboard responded 200 in 21.2992 ms
+2026-06-07 12:52:16 [INF] HTTP GET /api/tasks responded 200 in 261.2929 ms
+2026-06-07 12:52:16 [INF] HTTP GET /api/tasks responded 200 in 9.2150 ms
+2026-06-07 12:52:34 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.5083 ms
+2026-06-07 12:52:34 [WRN] Failed login attempt for jawad1@gmail.com
+2026-06-07 12:52:34 [INF] HTTP POST /api/auth/login responded 401 in 33.3878 ms
+2026-06-07 12:52:37 [INF] HTTP POST /api/auth/login responded 200 in 104.2858 ms
+2026-06-07 12:52:37 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0992 ms
+2026-06-07 12:52:37 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0913 ms
+2026-06-07 12:52:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1434 ms
+2026-06-07 12:52:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 1.4553 ms
+2026-06-07 12:52:37 [INF] HTTP GET /api/tasks responded 200 in 10.2526 ms
+2026-06-07 12:52:37 [INF] HTTP GET /api/tasks responded 200 in 5.9052 ms
+2026-06-07 12:52:37 [INF] HTTP GET /api/dashboard responded 200 in 51.0257 ms
+2026-06-07 12:52:37 [INF] HTTP GET /api/dashboard responded 200 in 8.5238 ms
+2026-06-07 12:53:00 [INF] HTTP OPTIONS /api/auth/register responded 204 in 0.3840 ms
+2026-06-07 12:53:00 [WRN] Registration failed for jawad1@gmail.com: Passwords must have at least one uppercase ('A'-'Z').
+2026-06-07 12:53:00 [ERR] HTTP POST /api/auth/register responded 500 in 182.9919 ms
+System.InvalidOperationException: Passwords must have at least one uppercase ('A'-'Z').
+   at TaskManagement.API.Services.AuthService.RegisterAsync(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Services\AuthService.cs:line 43
+   at TaskManagement.API.Controllers.AuthController.Register(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Controllers\AuthController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+2026-06-07 12:53:00 [WRN] Invalid operation.
+System.InvalidOperationException: Passwords must have at least one uppercase ('A'-'Z').
+   at TaskManagement.API.Services.AuthService.RegisterAsync(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Services\AuthService.cs:line 43
+   at TaskManagement.API.Controllers.AuthController.Register(RegisterDto dto) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Controllers\AuthController.cs:line 23
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ActionMethodExecutor.TaskOfIActionResultExecutor.Execute(ActionContext actionContext, IActionResultTypeMapper mapper, ObjectMethodExecutor executor, Object controller, Object[] arguments)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeActionMethodAsync>g__Awaited|12_0(ControllerActionInvoker invoker, ValueTask`1 actionResultValueTask)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeNextActionFilterAsync>g__Awaited|10_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Rethrow(ActionExecutedContextSealed context)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.Next(State& next, Scope& scope, Object& state, Boolean& isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ControllerActionInvoker.<InvokeInnerFilterAsync>g__Awaited|13_0(ControllerActionInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeFilterPipelineAsync>g__Awaited|20_0(ResourceInvoker invoker, Task lastTask, State next, Scope scope, Object state, Boolean isCompleted)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Mvc.Infrastructure.ResourceInvoker.<InvokeAsync>g__Awaited|17_0(ResourceInvoker invoker, Task task, IDisposable scope)
+   at Microsoft.AspNetCore.Authorization.AuthorizationMiddleware.Invoke(HttpContext context)
+   at Microsoft.AspNetCore.Authentication.AuthenticationMiddleware.Invoke(HttpContext context)
+   at Serilog.AspNetCore.RequestLoggingMiddleware.Invoke(HttpContext httpContext)
+   at TaskManagement.API.Middleware.ExceptionHandlingMiddleware.InvokeAsync(HttpContext context) in E:\10 Pearls Project\TaskManagementTool\Backend\TaskManagement.API\Middleware\ExceptionHandlingMiddleware.cs:line 21
+2026-06-07 12:53:09 [INF] HTTP OPTIONS /api/auth/register responded 204 in 0.6394 ms
+2026-06-07 12:53:09 [INF] New user registered: jawad1@gmail.com
+2026-06-07 12:53:09 [INF] HTTP POST /api/auth/register responded 200 in 129.4279 ms
+2026-06-07 12:53:09 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1498 ms
+2026-06-07 12:53:09 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1116 ms
+2026-06-07 12:53:09 [INF] HTTP OPTIONS /api/dashboard responded 204 in 1.7612 ms
+2026-06-07 12:53:09 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0949 ms
+2026-06-07 12:53:09 [INF] HTTP GET /api/tasks responded 200 in 23.9808 ms
+2026-06-07 12:53:09 [INF] HTTP GET /api/tasks responded 200 in 4.6011 ms
+2026-06-07 12:53:09 [INF] HTTP GET /api/dashboard responded 200 in 37.3014 ms
+2026-06-07 12:53:09 [INF] HTTP GET /api/dashboard responded 200 in 5.8794 ms
+2026-06-07 12:55:56 [INF] HTTP OPTIONS /api/auth/register responded 204 in 0.3722 ms
+2026-06-07 12:55:56 [INF] New user registered: abdullah1@gmail.com
+2026-06-07 12:55:56 [INF] HTTP POST /api/auth/register responded 200 in 134.1090 ms
+2026-06-07 12:55:56 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0482 ms
+2026-06-07 12:55:56 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0525 ms
+2026-06-07 12:55:56 [INF] HTTP OPTIONS /api/tasks responded 204 in 36.8516 ms
+2026-06-07 12:55:56 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0490 ms
+2026-06-07 12:55:56 [INF] HTTP GET /api/tasks responded 200 in 15.2242 ms
+2026-06-07 12:55:56 [INF] HTTP GET /api/tasks responded 200 in 3.4351 ms
+2026-06-07 12:55:56 [INF] HTTP GET /api/dashboard responded 200 in 22.7154 ms
+2026-06-07 12:55:56 [INF] HTTP GET /api/dashboard responded 200 in 5.2091 ms
+2026-06-07 12:56:21 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0220 ms
+2026-06-07 12:56:21 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1396 ms
+2026-06-07 12:56:21 [INF] HTTP GET /api/tasks responded 200 in 18.6035 ms
+2026-06-07 12:56:21 [INF] HTTP GET /api/tasks responded 200 in 2.6723 ms
+2026-06-07 12:56:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0514 ms
+2026-06-07 12:56:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0584 ms
+2026-06-07 12:56:31 [INF] HTTP GET /api/tasks responded 200 in 3.5070 ms
+2026-06-07 12:56:31 [INF] HTTP GET /api/tasks responded 200 in 3.2783 ms
+2026-06-07 12:56:36 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0314 ms
+2026-06-07 12:56:36 [INF] HTTP POST /api/auth/login responded 200 in 117.5666 ms
+2026-06-07 12:56:36 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0476 ms
+2026-06-07 12:56:36 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0552 ms
+2026-06-07 12:56:36 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0324 ms
+2026-06-07 12:56:36 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0415 ms
+2026-06-07 12:56:36 [INF] HTTP GET /api/dashboard responded 200 in 32.4311 ms
+2026-06-07 12:56:36 [INF] HTTP GET /api/dashboard responded 200 in 6.8597 ms
+2026-06-07 12:56:36 [INF] HTTP GET /api/tasks responded 200 in 134.6149 ms
+2026-06-07 12:56:36 [INF] HTTP GET /api/tasks responded 200 in 4.5901 ms
+2026-06-07 12:56:39 [INF] HTTP GET /api/tasks responded 200 in 3.6087 ms
+2026-06-07 12:56:39 [INF] HTTP GET /api/tasks responded 200 in 3.9033 ms
+2026-06-07 12:56:44 [INF] HTTP OPTIONS /api/tasks/15 responded 204 in 0.0422 ms
+2026-06-07 12:56:44 [INF] Task 15 deleted by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 12:56:44 [INF] HTTP DELETE /api/tasks/15 responded 204 in 62.0858 ms
+2026-06-07 12:56:46 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1460 ms
+2026-06-07 12:56:46 [INF] HTTP OPTIONS /api/users responded 204 in 0.0258 ms
+2026-06-07 12:56:46 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0662 ms
+2026-06-07 12:56:46 [INF] HTTP OPTIONS /api/users responded 204 in 0.0356 ms
+2026-06-07 12:56:46 [INF] HTTP GET /api/categories responded 200 in 31.6752 ms
+2026-06-07 12:56:46 [INF] HTTP GET /api/users responded 200 in 28.5954 ms
+2026-06-07 12:56:46 [INF] HTTP GET /api/categories responded 200 in 2.4359 ms
+2026-06-07 12:56:46 [INF] HTTP GET /api/users responded 200 in 3.4890 ms
+2026-06-07 12:57:41 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0283 ms
+2026-06-07 12:57:41 [INF] Task created: Design Landing Page by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 12:57:41 [INF] HTTP POST /api/tasks responded 201 in 121.6989 ms
+2026-06-07 12:57:41 [INF] HTTP GET /api/tasks responded 200 in 11.9569 ms
+2026-06-07 12:57:41 [INF] HTTP GET /api/tasks responded 200 in 3.7826 ms
+2026-06-07 12:57:42 [INF] HTTP OPTIONS /api/tasks/16 responded 204 in 0.0258 ms
+2026-06-07 12:57:42 [INF] HTTP OPTIONS /api/tasks/16 responded 204 in 0.0230 ms
+2026-06-07 12:57:42 [INF] HTTP GET /api/tasks/16 responded 200 in 17.5103 ms
+2026-06-07 12:57:42 [INF] HTTP GET /api/tasks/16 responded 200 in 2.9248 ms
+2026-06-07 12:57:46 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0251 ms
+2026-06-07 12:57:46 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0224 ms
+2026-06-07 12:57:46 [INF] HTTP GET /api/tasks responded 200 in 3.7496 ms
+2026-06-07 12:57:46 [INF] HTTP GET /api/tasks responded 200 in 3.7318 ms
+2026-06-07 12:57:49 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0254 ms
+2026-06-07 12:57:49 [INF] HTTP OPTIONS /api/users responded 204 in 0.0258 ms
+2026-06-07 12:57:49 [INF] HTTP OPTIONS /api/users responded 204 in 3.1857 ms
+2026-06-07 12:57:49 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1176 ms
+2026-06-07 12:57:49 [INF] HTTP GET /api/categories responded 200 in 3.7733 ms
+2026-06-07 12:57:49 [INF] HTTP GET /api/users responded 200 in 5.9844 ms
+2026-06-07 12:57:49 [INF] HTTP GET /api/categories responded 200 in 2.4032 ms
+2026-06-07 12:57:49 [INF] HTTP GET /api/users responded 200 in 2.2069 ms
+2026-06-07 12:58:24 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0346 ms
+2026-06-07 12:58:24 [INF] Task created: Setup CI/CD Pipeline by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 12:58:24 [INF] HTTP POST /api/tasks responded 201 in 18.9306 ms
+2026-06-07 12:58:24 [INF] HTTP GET /api/tasks responded 200 in 12.4918 ms
+2026-06-07 12:58:24 [INF] HTTP GET /api/tasks responded 200 in 4.0195 ms
+2026-06-07 12:58:50 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0284 ms
+2026-06-07 12:58:50 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0710 ms
+2026-06-07 12:58:50 [INF] HTTP GET /api/tasks responded 200 in 31.7613 ms
+2026-06-07 12:58:50 [INF] HTTP GET /api/tasks responded 200 in 4.8390 ms
+2026-06-07 12:58:53 [INF] HTTP GET /api/tasks responded 200 in 5.3217 ms
+2026-06-07 12:58:53 [INF] HTTP GET /api/tasks responded 200 in 13.1105 ms
+2026-06-07 12:58:55 [INF] HTTP GET /api/tasks responded 200 in 3.0963 ms
+2026-06-07 12:58:55 [INF] HTTP GET /api/tasks responded 200 in 4.0170 ms
+2026-06-07 12:59:17 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0288 ms
+2026-06-07 12:59:17 [WRN] Failed login attempt for haiderali@gmail.com
+2026-06-07 12:59:17 [INF] HTTP POST /api/auth/login responded 401 in 6.2159 ms
+2026-06-07 12:59:24 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0358 ms
+2026-06-07 12:59:24 [WRN] Failed login attempt for haiderali1@gmail.com
+2026-06-07 12:59:24 [INF] HTTP POST /api/auth/login responded 401 in 5.6538 ms
+2026-06-07 12:59:27 [INF] HTTP POST /api/auth/login responded 200 in 113.0648 ms
+2026-06-07 12:59:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0277 ms
+2026-06-07 12:59:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0230 ms
+2026-06-07 12:59:27 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1778 ms
+2026-06-07 12:59:27 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0145 ms
+2026-06-07 12:59:27 [INF] HTTP GET /api/tasks responded 200 in 13.9417 ms
+2026-06-07 12:59:27 [INF] HTTP GET /api/tasks responded 200 in 3.3356 ms
+2026-06-07 12:59:27 [INF] HTTP GET /api/dashboard responded 200 in 24.9461 ms
+2026-06-07 12:59:27 [INF] HTTP GET /api/dashboard responded 200 in 7.0386 ms
+2026-06-07 12:59:40 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0306 ms
+2026-06-07 12:59:40 [INF] HTTP POST /api/auth/login responded 200 in 102.5612 ms
+2026-06-07 12:59:41 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0230 ms
+2026-06-07 12:59:41 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.2021 ms
+2026-06-07 12:59:41 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0241 ms
+2026-06-07 12:59:41 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0834 ms
+2026-06-07 12:59:41 [INF] HTTP GET /api/tasks responded 200 in 14.3302 ms
+2026-06-07 12:59:41 [INF] HTTP GET /api/tasks responded 200 in 3.0900 ms
+2026-06-07 12:59:41 [INF] HTTP GET /api/dashboard responded 200 in 30.3044 ms
+2026-06-07 12:59:41 [INF] HTTP GET /api/dashboard responded 200 in 5.7142 ms
+2026-06-07 12:59:44 [INF] HTTP POST /api/auth/login responded 200 in 102.1557 ms
+2026-06-07 12:59:44 [INF] HTTP GET /api/tasks responded 200 in 2.0272 ms
+2026-06-07 12:59:44 [INF] HTTP GET /api/tasks responded 200 in 3.2198 ms
+2026-06-07 12:59:44 [INF] HTTP GET /api/dashboard responded 200 in 7.0106 ms
+2026-06-07 12:59:44 [INF] HTTP GET /api/dashboard responded 200 in 8.0359 ms
+2026-06-07 12:59:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0305 ms
+2026-06-07 12:59:55 [INF] HTTP OPTIONS /api/users responded 204 in 0.1818 ms
+2026-06-07 12:59:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0331 ms
+2026-06-07 12:59:55 [INF] HTTP OPTIONS /api/users responded 204 in 0.0549 ms
+2026-06-07 12:59:55 [INF] HTTP GET /api/categories responded 200 in 4.7469 ms
+2026-06-07 12:59:55 [INF] HTTP GET /api/categories responded 200 in 2.0930 ms
+2026-06-07 12:59:55 [INF] HTTP GET /api/users responded 403 in 7.2833 ms
+2026-06-07 12:59:55 [INF] HTTP GET /api/users responded 403 in 0.9059 ms
+2026-06-07 13:00:29 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0432 ms
+2026-06-07 13:00:29 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0429 ms
+2026-06-07 13:00:29 [INF] HTTP GET /api/categories responded 200 in 4.0817 ms
+2026-06-07 13:00:29 [INF] HTTP GET /api/categories responded 200 in 2.5131 ms
+2026-06-07 13:00:33 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0235 ms
+2026-06-07 13:00:33 [INF] HTTP POST /api/auth/login responded 200 in 101.1095 ms
+2026-06-07 13:00:33 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0240 ms
+2026-06-07 13:00:33 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1811 ms
+2026-06-07 13:00:33 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0326 ms
+2026-06-07 13:00:33 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0124 ms
+2026-06-07 13:00:33 [INF] HTTP GET /api/dashboard responded 200 in 9.0378 ms
+2026-06-07 13:00:33 [INF] HTTP GET /api/tasks responded 200 in 11.1331 ms
+2026-06-07 13:00:33 [INF] HTTP GET /api/dashboard responded 200 in 7.1494 ms
+2026-06-07 13:00:33 [INF] HTTP GET /api/tasks responded 200 in 3.1002 ms
+2026-06-07 13:00:37 [INF] HTTP GET /api/tasks responded 200 in 11.2278 ms
+2026-06-07 13:00:37 [INF] HTTP GET /api/tasks responded 200 in 4.2721 ms
+2026-06-07 13:00:39 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0262 ms
+2026-06-07 13:00:39 [INF] HTTP OPTIONS /api/users responded 204 in 0.0173 ms
+2026-06-07 13:00:39 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0289 ms
+2026-06-07 13:00:39 [INF] HTTP OPTIONS /api/users responded 204 in 0.0165 ms
+2026-06-07 13:00:39 [INF] HTTP GET /api/categories responded 200 in 4.0578 ms
+2026-06-07 13:00:39 [INF] HTTP GET /api/users responded 200 in 4.8442 ms
+2026-06-07 13:00:39 [INF] HTTP GET /api/categories responded 200 in 2.0500 ms
+2026-06-07 13:00:39 [INF] HTTP GET /api/users responded 200 in 6.0521 ms
+2026-06-07 13:01:09 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0297 ms
+2026-06-07 13:01:09 [INF] Task created: Write API Documentation by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:01:09 [INF] HTTP POST /api/tasks responded 201 in 14.5855 ms
+2026-06-07 13:01:09 [INF] HTTP GET /api/tasks responded 200 in 12.0086 ms
+2026-06-07 13:01:09 [INF] HTTP GET /api/tasks responded 200 in 3.9753 ms
+2026-06-07 13:01:17 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0236 ms
+2026-06-07 13:01:17 [INF] HTTP OPTIONS /api/users responded 204 in 0.0262 ms
+2026-06-07 13:01:17 [INF] HTTP OPTIONS /api/users responded 204 in 1.0233 ms
+2026-06-07 13:01:17 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0210 ms
+2026-06-07 13:01:17 [INF] HTTP GET /api/categories responded 200 in 2.1701 ms
+2026-06-07 13:01:17 [INF] HTTP GET /api/users responded 200 in 2.2186 ms
+2026-06-07 13:01:17 [INF] HTTP GET /api/users responded 200 in 2.4627 ms
+2026-06-07 13:01:17 [INF] HTTP GET /api/categories responded 200 in 2.0362 ms
+2026-06-07 13:01:55 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0508 ms
+2026-06-07 13:01:55 [INF] Task created: Database Performance Review by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:01:55 [INF] HTTP POST /api/tasks responded 201 in 16.4313 ms
+2026-06-07 13:01:55 [INF] HTTP GET /api/tasks responded 200 in 14.1851 ms
+2026-06-07 13:01:55 [INF] HTTP GET /api/tasks responded 200 in 151.1939 ms
+2026-06-07 13:01:59 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0248 ms
+2026-06-07 13:01:59 [INF] HTTP OPTIONS /api/users responded 204 in 0.0330 ms
+2026-06-07 13:01:59 [INF] HTTP OPTIONS /api/users responded 204 in 0.0142 ms
+2026-06-07 13:01:59 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0107 ms
+2026-06-07 13:01:59 [INF] HTTP GET /api/users responded 200 in 3.2520 ms
+2026-06-07 13:01:59 [INF] HTTP GET /api/categories responded 200 in 35.3303 ms
+2026-06-07 13:01:59 [INF] HTTP GET /api/users responded 200 in 2.6043 ms
+2026-06-07 13:01:59 [INF] HTTP GET /api/categories responded 200 in 1.9890 ms
+2026-06-07 13:02:28 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0215 ms
+2026-06-07 13:02:28 [INF] Task created: Create Monthly Report by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:02:28 [INF] HTTP POST /api/tasks responded 201 in 43.9117 ms
+2026-06-07 13:02:28 [INF] HTTP GET /api/tasks responded 200 in 3.7658 ms
+2026-06-07 13:02:28 [INF] HTTP GET /api/tasks responded 200 in 3.8871 ms
+2026-06-07 13:02:32 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0259 ms
+2026-06-07 13:02:32 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0104 ms
+2026-06-07 13:02:32 [INF] HTTP OPTIONS /api/users responded 204 in 0.0134 ms
+2026-06-07 13:02:32 [INF] HTTP OPTIONS /api/users responded 204 in 0.0132 ms
+2026-06-07 13:02:32 [INF] HTTP GET /api/categories responded 200 in 2.0555 ms
+2026-06-07 13:02:32 [INF] HTTP GET /api/categories responded 200 in 1.6884 ms
+2026-06-07 13:02:32 [INF] HTTP GET /api/users responded 200 in 1.7620 ms
+2026-06-07 13:02:32 [INF] HTTP GET /api/users responded 200 in 8.2922 ms
+2026-06-07 13:02:58 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0276 ms
+2026-06-07 13:02:58 [INF] Task created: Fix Login Page UI Bugs by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:02:58 [INF] HTTP POST /api/tasks responded 201 in 17.9984 ms
+2026-06-07 13:02:58 [INF] HTTP GET /api/tasks responded 200 in 8.6603 ms
+2026-06-07 13:02:59 [INF] HTTP GET /api/tasks responded 200 in 4.7882 ms
+2026-06-07 13:03:01 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0242 ms
+2026-06-07 13:03:01 [INF] HTTP OPTIONS /api/users responded 204 in 0.0218 ms
+2026-06-07 13:03:01 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0543 ms
+2026-06-07 13:03:01 [INF] HTTP OPTIONS /api/users responded 204 in 0.0546 ms
+2026-06-07 13:03:01 [INF] HTTP GET /api/categories responded 200 in 2.6283 ms
+2026-06-07 13:03:01 [INF] HTTP GET /api/users responded 200 in 2.9654 ms
+2026-06-07 13:03:01 [INF] HTTP GET /api/categories responded 200 in 1.7841 ms
+2026-06-07 13:03:01 [INF] HTTP GET /api/users responded 200 in 2.1535 ms
+2026-06-07 13:03:43 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0340 ms
+2026-06-07 13:03:43 [INF] Task created: User Acceptance Testing by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:03:43 [INF] HTTP POST /api/tasks responded 201 in 7.7081 ms
+2026-06-07 13:03:43 [INF] HTTP GET /api/tasks responded 200 in 3.6052 ms
+2026-06-07 13:03:43 [INF] HTTP GET /api/tasks responded 200 in 6.6827 ms
+2026-06-07 13:03:47 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0259 ms
+2026-06-07 13:03:47 [INF] HTTP OPTIONS /api/users responded 204 in 0.0125 ms
+2026-06-07 13:03:47 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0134 ms
+2026-06-07 13:03:47 [INF] HTTP OPTIONS /api/users responded 204 in 0.0272 ms
+2026-06-07 13:03:47 [INF] HTTP GET /api/categories responded 200 in 1.6980 ms
+2026-06-07 13:03:47 [INF] HTTP GET /api/users responded 200 in 1.9178 ms
+2026-06-07 13:03:47 [INF] HTTP GET /api/categories responded 200 in 1.7161 ms
+2026-06-07 13:03:47 [INF] HTTP GET /api/users responded 200 in 1.9960 ms
+2026-06-07 13:04:11 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0905 ms
+2026-06-07 13:04:11 [INF] Task created: Optimize Image Assets by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:04:11 [INF] HTTP POST /api/tasks responded 201 in 15.7540 ms
+2026-06-07 13:04:11 [INF] HTTP GET /api/tasks responded 200 in 13.9457 ms
+2026-06-07 13:04:11 [INF] HTTP GET /api/tasks responded 200 in 3.5303 ms
+2026-06-07 13:04:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0316 ms
+2026-06-07 13:04:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0302 ms
+2026-06-07 13:04:12 [INF] HTTP OPTIONS /api/users responded 204 in 0.0137 ms
+2026-06-07 13:04:12 [INF] HTTP OPTIONS /api/users responded 204 in 0.0284 ms
+2026-06-07 13:04:12 [INF] HTTP GET /api/categories responded 200 in 2.7258 ms
+2026-06-07 13:04:12 [INF] HTTP GET /api/categories responded 200 in 1.8184 ms
+2026-06-07 13:04:12 [INF] HTTP GET /api/users responded 200 in 7.8653 ms
+2026-06-07 13:04:12 [INF] HTTP GET /api/users responded 200 in 1.9927 ms
+2026-06-07 13:04:43 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0234 ms
+2026-06-07 13:04:43 [INF] Task created: Security Audit by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:04:43 [INF] HTTP POST /api/tasks responded 201 in 5.6320 ms
+2026-06-07 13:04:43 [INF] HTTP GET /api/tasks responded 200 in 6.1601 ms
+2026-06-07 13:04:43 [INF] HTTP GET /api/tasks responded 200 in 4.7824 ms
+2026-06-07 13:04:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0229 ms
+2026-06-07 13:04:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0338 ms
+2026-06-07 13:04:55 [INF] HTTP OPTIONS /api/users responded 204 in 0.0258 ms
+2026-06-07 13:04:55 [INF] HTTP GET /api/categories responded 200 in 1.6980 ms
+2026-06-07 13:04:55 [INF] HTTP OPTIONS /api/users responded 204 in 0.0458 ms
+2026-06-07 13:04:55 [INF] HTTP GET /api/categories responded 200 in 2.0823 ms
+2026-06-07 13:04:55 [INF] HTTP GET /api/users responded 200 in 3.5315 ms
+2026-06-07 13:04:55 [INF] HTTP GET /api/users responded 200 in 2.5329 ms
+2026-06-07 13:05:14 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0239 ms
+2026-06-07 13:05:14 [INF] Task created: Deploy to Staging Server by user 1e5eff7b-0dbf-4ed4-89c2-9a3b95176ac0
+2026-06-07 13:05:14 [INF] HTTP POST /api/tasks responded 201 in 14.9326 ms
+2026-06-07 13:05:14 [INF] HTTP GET /api/tasks responded 200 in 10.6720 ms
+2026-06-07 13:05:14 [INF] HTTP GET /api/tasks responded 200 in 4.9383 ms
+2026-06-07 13:05:19 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1160 ms
+2026-06-07 13:05:19 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0327 ms
+2026-06-07 13:05:19 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0394 ms
+2026-06-07 13:05:19 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0269 ms
+2026-06-07 13:05:19 [INF] HTTP GET /api/dashboard responded 200 in 49.9376 ms
+2026-06-07 13:05:19 [INF] HTTP GET /api/tasks responded 200 in 45.1528 ms
+2026-06-07 13:05:19 [INF] HTTP GET /api/tasks responded 200 in 5.7873 ms
+2026-06-07 13:05:19 [INF] HTTP GET /api/dashboard responded 200 in 6.8026 ms
+2026-06-07 13:05:35 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0244 ms
+2026-06-07 13:05:35 [INF] HTTP POST /api/auth/login responded 200 in 99.0121 ms
+2026-06-07 13:05:36 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0253 ms
+2026-06-07 13:05:36 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0256 ms
+2026-06-07 13:05:36 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0111 ms
+2026-06-07 13:05:36 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0105 ms
+2026-06-07 13:05:36 [INF] HTTP GET /api/tasks responded 200 in 20.4301 ms
+2026-06-07 13:05:36 [INF] HTTP GET /api/tasks responded 200 in 5.8176 ms
+2026-06-07 13:05:36 [INF] HTTP GET /api/dashboard responded 200 in 32.4456 ms
+2026-06-07 13:05:36 [INF] HTTP GET /api/dashboard responded 200 in 5.7533 ms
+2026-06-07 13:05:39 [INF] HTTP GET /api/tasks responded 200 in 2.8578 ms
+2026-06-07 13:05:39 [INF] HTTP GET /api/tasks responded 200 in 4.4268 ms
+2026-06-07 13:05:41 [INF] HTTP OPTIONS /api/tasks/24 responded 204 in 0.0356 ms
+2026-06-07 13:05:41 [INF] HTTP OPTIONS /api/tasks/24 responded 204 in 0.0231 ms
+2026-06-07 13:05:41 [INF] HTTP GET /api/tasks/24 responded 200 in 2.3023 ms
+2026-06-07 13:05:41 [INF] HTTP GET /api/tasks/24 responded 200 in 3.0010 ms
+2026-06-07 13:05:43 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0264 ms
+2026-06-07 13:05:43 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0202 ms
+2026-06-07 13:05:43 [INF] HTTP GET /api/tasks/24 responded 200 in 2.8854 ms
+2026-06-07 13:05:43 [INF] HTTP GET /api/categories responded 200 in 3.2358 ms
+2026-06-07 13:05:43 [INF] HTTP GET /api/tasks/24 responded 200 in 3.5472 ms
+2026-06-07 13:05:43 [INF] HTTP GET /api/categories responded 200 in 2.6898 ms
+2026-06-07 13:05:50 [INF] HTTP OPTIONS /api/tasks/24 responded 204 in 0.0267 ms
+2026-06-07 13:05:50 [INF] Task 24 updated by user 57eab5c0-515f-421a-9af1-9af2280efb7d
+2026-06-07 13:05:50 [INF] HTTP PUT /api/tasks/24 responded 200 in 29.1971 ms
+2026-06-07 13:05:50 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0380 ms
+2026-06-07 13:05:50 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0240 ms
+2026-06-07 13:05:50 [INF] HTTP GET /api/tasks responded 200 in 2.7330 ms
+2026-06-07 13:05:50 [INF] HTTP GET /api/tasks responded 200 in 3.1507 ms
+2026-06-07 13:05:55 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0350 ms
+2026-06-07 13:05:55 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0374 ms
+2026-06-07 13:05:55 [INF] HTTP GET /api/tasks responded 200 in 3.0843 ms
+2026-06-07 13:05:55 [INF] HTTP GET /api/tasks responded 200 in 3.6943 ms
+2026-06-07 13:05:55 [INF] HTTP GET /api/dashboard responded 200 in 6.0931 ms
+2026-06-07 13:05:55 [INF] HTTP GET /api/dashboard responded 200 in 4.7832 ms
+2026-06-07 13:06:00 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0386 ms
+2026-06-07 13:06:00 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0164 ms
+2026-06-07 13:06:00 [INF] HTTP GET /api/categories responded 200 in 2.2707 ms
+2026-06-07 13:06:00 [INF] HTTP GET /api/categories responded 200 in 2.1575 ms
+2026-06-07 13:06:36 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0558 ms
+2026-06-07 13:06:36 [INF] HTTP OPTIONS /api/categories responded 204 in 0.2484 ms
+2026-06-07 13:06:36 [INF] HTTP GET /api/categories responded 200 in 4.0563 ms
+2026-06-07 13:06:36 [INF] HTTP GET /api/categories responded 200 in 2.0468 ms
+2026-06-07 13:06:55 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0269 ms
+2026-06-07 13:06:55 [INF] Task created: Daily Standup Notes by user 57eab5c0-515f-421a-9af1-9af2280efb7d
+2026-06-07 13:06:55 [INF] HTTP POST /api/tasks responded 201 in 17.1444 ms
+2026-06-07 13:06:55 [INF] HTTP GET /api/tasks responded 200 in 13.1504 ms
+2026-06-07 13:06:55 [INF] HTTP GET /api/tasks responded 200 in 3.3417 ms
+2026-06-07 13:07:02 [INF] HTTP OPTIONS /api/tasks/26 responded 204 in 0.0279 ms
+2026-06-07 13:07:02 [INF] HTTP OPTIONS /api/tasks/26 responded 204 in 0.0497 ms
+2026-06-07 13:07:02 [INF] HTTP GET /api/tasks/26 responded 200 in 2.4418 ms
+2026-06-07 13:07:02 [INF] HTTP GET /api/tasks/26 responded 200 in 3.1548 ms
+2026-06-07 13:09:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0309 ms
+2026-06-07 13:09:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0251 ms
+2026-06-07 13:09:06 [INF] HTTP GET /api/tasks responded 200 in 13.5714 ms
+2026-06-07 13:09:06 [INF] HTTP GET /api/tasks responded 200 in 2.4756 ms
+2026-06-07 13:09:10 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0127 ms
+2026-06-07 13:09:10 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0256 ms
+2026-06-07 13:09:10 [INF] HTTP GET /api/tasks responded 200 in 6.0491 ms
+2026-06-07 13:09:10 [INF] HTTP GET /api/tasks responded 200 in 42.8563 ms
+2026-06-07 13:09:10 [INF] HTTP GET /api/dashboard responded 200 in 54.4341 ms
+2026-06-07 13:09:10 [INF] HTTP GET /api/dashboard responded 200 in 6.0800 ms
+2026-06-07 13:09:13 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0278 ms
+2026-06-07 13:09:13 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0204 ms
+2026-06-07 13:09:13 [INF] HTTP GET /api/tasks responded 200 in 4.4164 ms
+2026-06-07 13:09:13 [INF] HTTP GET /api/tasks responded 200 in 5.0395 ms
+2026-06-07 13:09:15 [INF] HTTP OPTIONS /api/tasks/26 responded 204 in 0.1682 ms
+2026-06-07 13:09:15 [INF] Task 26 deleted by user 57eab5c0-515f-421a-9af1-9af2280efb7d
+2026-06-07 13:09:15 [INF] HTTP DELETE /api/tasks/26 responded 204 in 8.8946 ms
+2026-06-07 13:09:22 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0302 ms
+2026-06-07 13:09:22 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0277 ms
+2026-06-07 13:09:22 [INF] HTTP GET /api/tasks responded 200 in 26.0026 ms
+2026-06-07 13:09:22 [INF] HTTP GET /api/tasks responded 200 in 4.8090 ms
+2026-06-07 13:09:26 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0195 ms
+2026-06-07 13:09:27 [INF] HTTP POST /api/auth/login responded 200 in 105.5605 ms
+2026-06-07 13:09:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0287 ms
+2026-06-07 13:09:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0236 ms
+2026-06-07 13:09:27 [INF] HTTP GET /api/tasks responded 200 in 17.2619 ms
+2026-06-07 13:09:27 [INF] HTTP GET /api/tasks responded 200 in 5.4233 ms
+2026-06-07 13:09:27 [INF] HTTP GET /api/dashboard responded 200 in 23.6102 ms
+2026-06-07 13:09:27 [INF] HTTP GET /api/dashboard responded 200 in 7.8056 ms
+2026-06-07 13:09:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0839 ms
+2026-06-07 13:09:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0661 ms
+2026-06-07 13:09:37 [INF] HTTP GET /api/tasks responded 200 in 4.6975 ms
+2026-06-07 13:09:37 [INF] HTTP GET /api/tasks responded 200 in 4.7136 ms
+2026-06-07 13:09:39 [INF] HTTP GET /api/tasks responded 200 in 3.0357 ms
+2026-06-07 13:09:39 [INF] HTTP GET /api/tasks responded 200 in 5.6182 ms
+2026-06-07 13:09:40 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0267 ms
+2026-06-07 13:09:40 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0157 ms
+2026-06-07 13:09:40 [INF] HTTP GET /api/tasks responded 200 in 3.4877 ms
+2026-06-07 13:09:40 [INF] HTTP GET /api/tasks responded 200 in 4.1227 ms
+2026-06-07 13:09:40 [INF] HTTP GET /api/dashboard responded 200 in 8.2904 ms
+2026-06-07 13:09:40 [INF] HTTP GET /api/dashboard responded 200 in 5.1784 ms
+2026-06-07 13:10:50 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0306 ms
+2026-06-07 13:10:50 [WRN] Failed login attempt for kamran1@gmail.com
+2026-06-07 13:10:50 [INF] HTTP POST /api/auth/login responded 401 in 90.1851 ms
+2026-06-07 13:11:11 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0265 ms
+2026-06-07 13:11:11 [WRN] Failed login attempt for kamran1@gmail.com
+2026-06-07 13:11:11 [INF] HTTP POST /api/auth/login responded 401 in 101.0408 ms
+2026-06-07 13:11:47 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0306 ms
+2026-06-07 13:11:47 [WRN] Failed login attempt for kamran1@gamil.com
+2026-06-07 13:11:47 [INF] HTTP POST /api/auth/login responded 401 in 7.3597 ms
+2026-06-07 13:12:31 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0206 ms
+2026-06-07 13:12:31 [INF] HTTP POST /api/auth/login responded 200 in 90.6501 ms
+2026-06-07 13:12:31 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0236 ms
+2026-06-07 13:12:31 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0192 ms
+2026-06-07 13:12:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0311 ms
+2026-06-07 13:12:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0344 ms
+2026-06-07 13:12:31 [INF] HTTP GET /api/tasks responded 200 in 12.4227 ms
+2026-06-07 13:12:32 [INF] HTTP GET /api/dashboard responded 200 in 30.7903 ms
+2026-06-07 13:12:32 [INF] HTTP GET /api/tasks responded 200 in 5.1875 ms
+2026-06-07 13:12:32 [INF] HTTP GET /api/dashboard responded 200 in 5.4451 ms
+2026-06-07 13:12:39 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0258 ms
+2026-06-07 13:12:39 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0132 ms
+2026-06-07 13:12:39 [INF] HTTP GET /api/categories responded 200 in 10.5720 ms
+2026-06-07 13:12:39 [INF] HTTP GET /api/categories responded 200 in 1.8038 ms
+2026-06-07 13:13:12 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0254 ms
+2026-06-07 13:13:12 [INF] Task created: Read Clean Code Book by user 73922117-e38c-4e56-aec5-b038575b7adb
+2026-06-07 13:13:12 [INF] HTTP POST /api/tasks responded 201 in 15.8595 ms
+2026-06-07 13:13:12 [INF] HTTP GET /api/tasks responded 200 in 25.3252 ms
+2026-06-07 13:13:12 [INF] HTTP GET /api/tasks responded 200 in 4.2336 ms
+2026-06-07 13:13:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0469 ms
+2026-06-07 13:13:55 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1325 ms
+2026-06-07 13:13:55 [INF] HTTP GET /api/categories responded 200 in 6.8688 ms
+2026-06-07 13:13:55 [INF] HTTP GET /api/categories responded 200 in 2.5152 ms
+2026-06-07 13:14:07 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0341 ms
+2026-06-07 13:14:07 [INF] Task created: Fix Navbar Responsiveness by user 73922117-e38c-4e56-aec5-b038575b7adb
+2026-06-07 13:14:07 [INF] HTTP POST /api/tasks responded 201 in 15.0641 ms
+2026-06-07 13:14:07 [INF] HTTP GET /api/tasks responded 200 in 16.9986 ms
+2026-06-07 13:14:07 [INF] HTTP GET /api/tasks responded 200 in 4.1666 ms
+2026-06-07 13:14:17 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0848 ms
+2026-06-07 13:14:17 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0439 ms
+2026-06-07 13:14:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0275 ms
+2026-06-07 13:14:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 1.9119 ms
+2026-06-07 13:14:17 [INF] HTTP GET /api/tasks responded 200 in 5.4770 ms
+2026-06-07 13:14:17 [INF] HTTP GET /api/tasks responded 200 in 4.6629 ms
+2026-06-07 13:14:17 [INF] HTTP GET /api/dashboard responded 200 in 27.7280 ms
+2026-06-07 13:14:17 [INF] HTTP GET /api/dashboard responded 200 in 5.5402 ms
+2026-06-07 13:14:56 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0744 ms
+2026-06-07 13:14:56 [INF] HTTP POST /api/auth/login responded 200 in 115.9271 ms
+2026-06-07 13:14:56 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0256 ms
+2026-06-07 13:14:56 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0297 ms
+2026-06-07 13:14:56 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0312 ms
+2026-06-07 13:14:56 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0308 ms
+2026-06-07 13:14:56 [INF] HTTP GET /api/tasks responded 200 in 22.9335 ms
+2026-06-07 13:14:56 [INF] HTTP GET /api/tasks responded 200 in 5.4008 ms
+2026-06-07 13:14:56 [INF] HTTP GET /api/dashboard responded 200 in 34.1130 ms
+2026-06-07 13:14:56 [INF] HTTP GET /api/dashboard responded 200 in 5.6025 ms
+2026-06-07 13:15:02 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.8899 ms
+2026-06-07 13:15:02 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0244 ms
+2026-06-07 13:15:02 [INF] HTTP GET /api/tasks responded 200 in 4.1789 ms
+2026-06-07 13:15:02 [INF] HTTP GET /api/tasks responded 200 in 3.9030 ms
+2026-06-07 13:15:03 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0313 ms
+2026-06-07 13:15:03 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0263 ms
+2026-06-07 13:15:03 [INF] HTTP GET /api/categories responded 200 in 2.7783 ms
+2026-06-07 13:15:03 [INF] HTTP GET /api/categories responded 200 in 2.2455 ms
+2026-06-07 13:15:42 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0250 ms
+2026-06-07 13:15:42 [INF] Task created: Create Unit Test Cases by user 57eab5c0-515f-421a-9af1-9af2280efb7d
+2026-06-07 13:15:42 [INF] HTTP POST /api/tasks responded 201 in 13.8001 ms
+2026-06-07 13:15:42 [INF] HTTP GET /api/tasks responded 200 in 4.8164 ms
+2026-06-07 13:15:42 [INF] HTTP GET /api/tasks responded 200 in 3.5973 ms
+2026-06-07 13:15:47 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0252 ms
+2026-06-07 13:15:47 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1501 ms
+2026-06-07 13:15:47 [INF] HTTP GET /api/categories responded 200 in 1.8478 ms
+2026-06-07 13:15:47 [INF] HTTP GET /api/categories responded 200 in 1.7040 ms
+2026-06-07 13:16:56 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0411 ms
+2026-06-07 13:16:56 [INF] Task created: Practice SQL Queries by user 57eab5c0-515f-421a-9af1-9af2280efb7d
+2026-06-07 13:16:56 [INF] HTTP POST /api/tasks responded 201 in 15.0493 ms
+2026-06-07 13:16:56 [INF] HTTP GET /api/tasks responded 200 in 17.6325 ms
+2026-06-07 13:16:56 [INF] HTTP GET /api/tasks responded 200 in 11.2422 ms
+2026-06-07 13:17:12 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0324 ms
+2026-06-07 13:17:12 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1689 ms
+2026-06-07 13:17:12 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0275 ms
+2026-06-07 13:17:12 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0305 ms
+2026-06-07 13:17:12 [INF] HTTP GET /api/tasks responded 200 in 17.1157 ms
+2026-06-07 13:17:12 [INF] HTTP GET /api/dashboard responded 200 in 29.8723 ms
+2026-06-07 13:17:12 [INF] HTTP GET /api/tasks responded 200 in 3.8488 ms
+2026-06-07 13:17:12 [INF] HTTP GET /api/dashboard responded 200 in 6.6701 ms
+2026-06-07 13:17:36 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0322 ms
+2026-06-07 13:17:37 [INF] HTTP POST /api/auth/login responded 200 in 99.8647 ms
+2026-06-07 13:17:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0253 ms
+2026-06-07 13:17:37 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0167 ms
+2026-06-07 13:17:37 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0201 ms
+2026-06-07 13:17:37 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0160 ms
+2026-06-07 13:17:37 [INF] HTTP GET /api/tasks responded 200 in 13.1731 ms
+2026-06-07 13:17:37 [INF] HTTP GET /api/dashboard responded 200 in 15.1423 ms
+2026-06-07 13:17:37 [INF] HTTP GET /api/tasks responded 200 in 5.1938 ms
+2026-06-07 13:17:37 [INF] HTTP GET /api/dashboard responded 200 in 8.8940 ms
+2026-06-07 13:17:38 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0446 ms
+2026-06-07 13:17:38 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0196 ms
+2026-06-07 13:17:39 [INF] HTTP GET /api/categories responded 200 in 2.5540 ms
+2026-06-07 13:17:39 [INF] HTTP GET /api/categories responded 200 in 1.8083 ms
+2026-06-07 13:18:10 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0311 ms
+2026-06-07 13:18:10 [INF] Task created: Daily Standup Notes by user 138fbb53-599e-4cc5-9538-9a9b425deeea
+2026-06-07 13:18:10 [INF] HTTP POST /api/tasks responded 201 in 17.3292 ms
+2026-06-07 13:18:10 [INF] HTTP GET /api/tasks responded 200 in 23.0487 ms
+2026-06-07 13:18:10 [INF] HTTP GET /api/tasks responded 200 in 4.2685 ms
+2026-06-07 13:18:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0240 ms
+2026-06-07 13:18:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0358 ms
+2026-06-07 13:18:12 [INF] HTTP GET /api/categories responded 200 in 4.8991 ms
+2026-06-07 13:18:12 [INF] HTTP GET /api/categories responded 200 in 34.3627 ms
+2026-06-07 13:18:42 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0277 ms
+2026-06-07 13:18:42 [INF] Task created: Setup Local Dev Environment by user 138fbb53-599e-4cc5-9538-9a9b425deeea
+2026-06-07 13:18:42 [INF] HTTP POST /api/tasks responded 201 in 15.0930 ms
+2026-06-07 13:18:42 [INF] HTTP GET /api/tasks responded 200 in 14.4718 ms
+2026-06-07 13:18:42 [INF] HTTP GET /api/tasks responded 200 in 7.3369 ms
+2026-06-07 13:18:51 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0285 ms
+2026-06-07 13:18:51 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0289 ms
+2026-06-07 13:18:51 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0290 ms
+2026-06-07 13:18:51 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0236 ms
+2026-06-07 13:18:51 [INF] HTTP GET /api/tasks responded 200 in 5.0083 ms
+2026-06-07 13:18:51 [INF] HTTP GET /api/tasks responded 200 in 5.5285 ms
+2026-06-07 13:18:51 [INF] HTTP GET /api/dashboard responded 200 in 20.2115 ms
+2026-06-07 13:18:51 [INF] HTTP GET /api/dashboard responded 200 in 6.0782 ms
+2026-06-07 13:18:57 [INF] HTTP GET /api/dashboard responded 401 in 9.6266 ms
+2026-06-07 13:18:57 [INF] HTTP GET /api/tasks responded 401 in 8.9461 ms
+2026-06-07 13:18:58 [INF] HTTP GET /api/dashboard responded 401 in 0.6888 ms
+2026-06-07 13:18:58 [INF] HTTP GET /api/tasks responded 401 in 0.1768 ms
+2026-06-07 13:19:26 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0247 ms
+2026-06-07 13:19:26 [INF] HTTP POST /api/auth/login responded 200 in 103.7849 ms
+2026-06-07 13:19:26 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0447 ms
+2026-06-07 13:19:26 [INF] HTTP OPTIONS /api/dashboard responded 204 in 4.6641 ms
+2026-06-07 13:19:26 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0469 ms
+2026-06-07 13:19:26 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0391 ms
+2026-06-07 13:19:26 [INF] HTTP GET /api/dashboard responded 200 in 25.8620 ms
+2026-06-07 13:19:26 [INF] HTTP GET /api/tasks responded 200 in 15.7630 ms
+2026-06-07 13:19:26 [INF] HTTP GET /api/tasks responded 200 in 3.2547 ms
+2026-06-07 13:19:26 [INF] HTTP GET /api/dashboard responded 200 in 4.9192 ms
+2026-06-07 13:19:33 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0262 ms
+2026-06-07 13:19:33 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0468 ms
+2026-06-07 13:19:33 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0278 ms
+2026-06-07 13:19:33 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0464 ms
+2026-06-07 13:19:33 [INF] HTTP GET /api/tasks responded 200 in 3.9024 ms
+2026-06-07 13:19:33 [INF] HTTP GET /api/dashboard responded 200 in 6.9079 ms
+2026-06-07 13:19:33 [INF] HTTP GET /api/tasks responded 200 in 2.9294 ms
+2026-06-07 13:19:33 [INF] HTTP GET /api/dashboard responded 200 in 4.8548 ms
+2026-06-07 13:19:47 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0576 ms
+2026-06-07 13:19:47 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0284 ms
+2026-06-07 13:19:47 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0190 ms
+2026-06-07 13:19:47 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0194 ms
+2026-06-07 13:19:47 [INF] HTTP GET /api/tasks responded 200 in 4.9311 ms
+2026-06-07 13:19:47 [INF] HTTP GET /api/dashboard responded 200 in 9.3163 ms
+2026-06-07 13:19:47 [INF] HTTP GET /api/tasks responded 200 in 34.0726 ms
+2026-06-07 13:19:47 [INF] HTTP GET /api/dashboard responded 200 in 39.2636 ms
+2026-06-07 13:20:31 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0289 ms
+2026-06-07 13:20:31 [INF] HTTP POST /api/auth/login responded 200 in 91.0708 ms
+2026-06-07 13:20:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0297 ms
+2026-06-07 13:20:31 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0263 ms
+2026-06-07 13:20:31 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0136 ms
+2026-06-07 13:20:31 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0231 ms
+2026-06-07 13:20:31 [INF] HTTP GET /api/tasks responded 200 in 22.1469 ms
+2026-06-07 13:20:31 [INF] HTTP GET /api/tasks responded 200 in 4.5508 ms
+2026-06-07 13:20:31 [INF] HTTP GET /api/dashboard responded 200 in 32.7080 ms
+2026-06-07 13:20:31 [INF] HTTP GET /api/dashboard responded 200 in 5.1637 ms
+2026-06-07 13:20:34 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0298 ms
+2026-06-07 13:20:34 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0459 ms
+2026-06-07 13:20:34 [INF] HTTP GET /api/categories responded 200 in 2.5583 ms
+2026-06-07 13:20:34 [INF] HTTP GET /api/categories responded 200 in 3.4586 ms
+2026-06-07 13:21:18 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0302 ms
+2026-06-07 13:21:18 [INF] Task created: Prepare Interview Questions by user 95a20835-8534-42e1-b725-75eeddcd6ad6
+2026-06-07 13:21:18 [INF] HTTP POST /api/tasks responded 201 in 14.1181 ms
+2026-06-07 13:21:18 [INF] HTTP GET /api/tasks responded 200 in 38.0664 ms
+2026-06-07 13:21:19 [INF] HTTP GET /api/tasks responded 200 in 47.5748 ms
+2026-06-07 13:21:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0291 ms
+2026-06-07 13:21:27 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0376 ms
+2026-06-07 13:21:27 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0337 ms
+2026-06-07 13:21:27 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0109 ms
+2026-06-07 13:21:27 [INF] HTTP GET /api/dashboard responded 200 in 19.9154 ms
+2026-06-07 13:21:27 [INF] HTTP GET /api/tasks responded 200 in 18.1769 ms
+2026-06-07 13:21:27 [INF] HTTP GET /api/tasks responded 200 in 6.1655 ms
+2026-06-07 13:21:27 [INF] HTTP GET /api/dashboard responded 200 in 20.1379 ms
+2026-06-07 13:21:29 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0306 ms
+2026-06-07 13:21:29 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0323 ms
+2026-06-07 13:21:29 [INF] HTTP GET /api/categories responded 200 in 4.9845 ms
+2026-06-07 13:21:29 [INF] HTTP GET /api/categories responded 200 in 2.2889 ms
+2026-06-07 13:22:01 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0343 ms
+2026-06-07 13:22:01 [INF] Task created: Study Docker Basics by user 95a20835-8534-42e1-b725-75eeddcd6ad6
+2026-06-07 13:22:01 [INF] HTTP POST /api/tasks responded 201 in 17.6751 ms
+2026-06-07 13:22:01 [INF] HTTP GET /api/tasks responded 200 in 18.6544 ms
+2026-06-07 13:22:01 [INF] HTTP GET /api/tasks responded 200 in 4.1949 ms
+2026-06-07 13:22:15 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0262 ms
+2026-06-07 13:22:15 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0327 ms
+2026-06-07 13:22:15 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0284 ms
+2026-06-07 13:22:15 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1029 ms
+2026-06-07 13:22:15 [INF] HTTP GET /api/tasks responded 200 in 3.1761 ms
+2026-06-07 13:22:15 [INF] HTTP GET /api/tasks responded 200 in 3.3062 ms
+2026-06-07 13:22:15 [INF] HTTP GET /api/dashboard responded 200 in 18.5328 ms
+2026-06-07 13:22:15 [INF] HTTP GET /api/dashboard responded 200 in 4.4639 ms
+2026-06-07 13:22:23 [INF] HTTP GET /api/dashboard responded 401 in 0.1107 ms
+2026-06-07 13:22:23 [INF] HTTP GET /api/tasks responded 401 in 0.1376 ms
+2026-06-07 13:22:23 [INF] HTTP GET /api/dashboard responded 401 in 0.3532 ms
+2026-06-07 13:22:23 [INF] HTTP GET /api/tasks responded 401 in 0.1180 ms
+2026-06-07 13:22:37 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0300 ms
+2026-06-07 13:22:38 [INF] HTTP POST /api/auth/login responded 200 in 96.4305 ms
+2026-06-07 13:22:38 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0333 ms
+2026-06-07 13:22:38 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0208 ms
+2026-06-07 13:22:38 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1059 ms
+2026-06-07 13:22:38 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0366 ms
+2026-06-07 13:22:38 [INF] HTTP GET /api/tasks responded 200 in 15.3192 ms
+2026-06-07 13:22:38 [INF] HTTP GET /api/dashboard responded 200 in 19.3351 ms
+2026-06-07 13:22:38 [INF] HTTP GET /api/tasks responded 200 in 4.6690 ms
+2026-06-07 13:22:38 [INF] HTTP GET /api/dashboard responded 200 in 37.0422 ms
+2026-06-07 13:23:19 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0281 ms
+2026-06-07 13:23:19 [WRN] Failed login attempt for haiderali1@gmail.com
+2026-06-07 13:23:19 [INF] HTTP POST /api/auth/login responded 401 in 9.9926 ms
+2026-06-07 13:23:44 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0202 ms
+2026-06-07 13:23:44 [WRN] Failed login attempt for haiderali1@gmail.com
+2026-06-07 13:23:44 [INF] HTTP POST /api/auth/login responded 401 in 6.1657 ms
+2026-06-07 13:23:58 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0270 ms
+2026-06-07 13:23:58 [INF] HTTP POST /api/auth/login responded 200 in 90.8804 ms
+2026-06-07 13:23:58 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0278 ms
+2026-06-07 13:23:58 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0543 ms
+2026-06-07 13:23:58 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0135 ms
+2026-06-07 13:23:58 [INF] HTTP OPTIONS /api/tasks responded 204 in 1.7511 ms
+2026-06-07 13:23:58 [INF] HTTP GET /api/dashboard responded 200 in 15.4938 ms
+2026-06-07 13:23:58 [INF] HTTP GET /api/tasks responded 200 in 13.9358 ms
+2026-06-07 13:23:58 [INF] HTTP GET /api/dashboard responded 200 in 5.9395 ms
+2026-06-07 13:23:58 [INF] HTTP GET /api/tasks responded 200 in 2.7284 ms
+2026-06-07 13:24:09 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0250 ms
+2026-06-07 13:24:09 [INF] HTTP POST /api/auth/login responded 200 in 103.5138 ms
+2026-06-07 13:24:09 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0254 ms
+2026-06-07 13:24:09 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0102 ms
+2026-06-07 13:24:09 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0582 ms
+2026-06-07 13:24:09 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0150 ms
+2026-06-07 13:24:09 [INF] HTTP GET /api/dashboard responded 200 in 14.8157 ms
+2026-06-07 13:24:09 [INF] HTTP GET /api/dashboard responded 200 in 6.0077 ms
+2026-06-07 13:24:09 [INF] HTTP GET /api/tasks responded 200 in 21.8127 ms
+2026-06-07 13:24:09 [INF] HTTP GET /api/tasks responded 200 in 6.5217 ms
+2026-06-07 13:24:18 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0252 ms
+2026-06-07 13:24:18 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0196 ms
+2026-06-07 13:24:18 [INF] HTTP GET /api/tasks responded 200 in 13.1670 ms
+2026-06-07 13:24:18 [INF] HTTP GET /api/tasks responded 200 in 4.4024 ms
+2026-06-07 13:24:43 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.0253 ms
+2026-06-07 13:24:43 [INF] HTTP POST /api/auth/login responded 200 in 94.1894 ms
+2026-06-07 13:24:43 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0375 ms
+2026-06-07 13:24:43 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0299 ms
+2026-06-07 13:24:43 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.1050 ms
+2026-06-07 13:24:43 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0271 ms
+2026-06-07 13:24:43 [INF] HTTP GET /api/tasks responded 200 in 24.1006 ms
+2026-06-07 13:24:43 [INF] HTTP GET /api/dashboard responded 200 in 36.1085 ms
+2026-06-07 13:24:43 [INF] HTTP GET /api/tasks responded 200 in 6.1371 ms
+2026-06-07 13:24:43 [INF] HTTP GET /api/dashboard responded 200 in 28.1209 ms
+2026-06-07 13:24:45 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0275 ms
+2026-06-07 13:24:45 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0211 ms
+2026-06-07 13:24:45 [INF] HTTP GET /api/categories responded 200 in 8.1907 ms
+2026-06-07 13:24:45 [INF] HTTP GET /api/categories responded 200 in 3.5720 ms
+2026-06-07 13:25:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0217 ms
+2026-06-07 13:25:06 [INF] Task created: Update Portfolio Website by user dfa8b571-cb74-4e96-bdb6-addf31ae40bc
+2026-06-07 13:25:06 [INF] HTTP POST /api/tasks responded 201 in 14.6093 ms
+2026-06-07 13:25:06 [INF] HTTP GET /api/tasks responded 200 in 20.1900 ms
+2026-06-07 13:25:06 [INF] HTTP GET /api/tasks responded 200 in 39.7570 ms
+2026-06-07 13:25:07 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0242 ms
+2026-06-07 13:25:07 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0246 ms
+2026-06-07 13:25:07 [INF] HTTP GET /api/categories responded 200 in 2.8277 ms
+2026-06-07 13:25:07 [INF] HTTP GET /api/categories responded 200 in 7.4944 ms
+2026-06-07 13:25:54 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1230 ms
+2026-06-07 13:25:54 [INF] Task created: Learn React Hooks by user dfa8b571-cb74-4e96-bdb6-addf31ae40bc
+2026-06-07 13:25:54 [INF] HTTP POST /api/tasks responded 201 in 15.9566 ms
+2026-06-07 13:25:54 [INF] HTTP GET /api/tasks responded 200 in 26.3361 ms
+2026-06-07 13:25:54 [INF] HTTP GET /api/tasks responded 200 in 4.6401 ms
+2026-06-07 13:26:06 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0415 ms
+2026-06-07 13:26:06 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0292 ms
+2026-06-07 13:26:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0122 ms
+2026-06-07 13:26:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0120 ms
+2026-06-07 13:26:06 [INF] HTTP GET /api/tasks responded 200 in 4.7146 ms
+2026-06-07 13:26:06 [INF] HTTP GET /api/tasks responded 200 in 33.9391 ms
+2026-06-07 13:26:06 [INF] HTTP GET /api/dashboard responded 200 in 54.1146 ms
+2026-06-07 13:26:06 [INF] HTTP GET /api/dashboard responded 200 in 6.1750 ms
+2026-06-07 13:26:13 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0300 ms
+2026-06-07 13:26:13 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0278 ms
+2026-06-07 13:26:13 [INF] HTTP GET /api/categories responded 200 in 3.6383 ms
+2026-06-07 13:26:13 [INF] HTTP GET /api/categories responded 200 in 2.1906 ms
+2026-06-07 13:26:24 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0249 ms
+2026-06-07 13:26:24 [INF] Task created: sdfs by user dfa8b571-cb74-4e96-bdb6-addf31ae40bc
+2026-06-07 13:26:24 [INF] HTTP POST /api/tasks responded 201 in 13.7018 ms
+2026-06-07 13:26:24 [INF] HTTP GET /api/tasks responded 200 in 15.3456 ms
+2026-06-07 13:26:24 [INF] HTTP GET /api/tasks responded 200 in 3.9496 ms
+2026-06-07 13:26:26 [INF] HTTP OPTIONS /api/tasks/37 responded 204 in 0.0340 ms
+2026-06-07 13:26:26 [INF] HTTP OPTIONS /api/tasks/37 responded 204 in 0.0254 ms
+2026-06-07 13:26:26 [INF] HTTP GET /api/tasks/37 responded 200 in 5.0816 ms
+2026-06-07 13:26:26 [INF] HTTP GET /api/tasks/37 responded 200 in 2.6454 ms
+2026-06-07 13:26:27 [INF] HTTP OPTIONS /api/tasks/37 responded 204 in 0.0255 ms
+2026-06-07 13:26:27 [INF] Task 37 deleted by user dfa8b571-cb74-4e96-bdb6-addf31ae40bc
+2026-06-07 13:26:27 [INF] HTTP DELETE /api/tasks/37 responded 204 in 6.5843 ms
+2026-06-07 13:26:27 [INF] HTTP GET /api/tasks responded 200 in 3.4169 ms
+2026-06-07 13:26:27 [INF] HTTP GET /api/tasks responded 200 in 4.4058 ms
+2026-06-07 13:26:35 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 0.0272 ms
+2026-06-07 13:26:35 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 0.0166 ms
+2026-06-07 13:26:35 [INF] HTTP GET /api/tasks/34 responded 200 in 2.5349 ms
+2026-06-07 13:26:35 [INF] HTTP GET /api/tasks/34 responded 200 in 2.8131 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0308 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0636 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 0.0387 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/users responded 204 in 0.0184 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/users responded 204 in 0.0257 ms
+2026-06-07 13:26:41 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 1.1287 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/categories responded 200 in 3.0039 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/categories responded 200 in 1.8035 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/tasks/34 responded 200 in 2.2284 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/users responded 200 in 2.7955 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/users responded 200 in 1.5619 ms
+2026-06-07 13:26:41 [INF] HTTP GET /api/tasks/34 responded 200 in 2.3993 ms
+2026-06-07 13:33:06 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0528 ms
+2026-06-07 13:33:06 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0317 ms
+2026-06-07 13:33:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0278 ms
+2026-06-07 13:33:06 [INF] HTTP OPTIONS /api/tasks responded 204 in 37.5722 ms
+2026-06-07 13:33:06 [INF] HTTP GET /api/tasks responded 200 in 106.9063 ms
+2026-06-07 13:33:06 [INF] HTTP GET /api/tasks responded 200 in 3.6449 ms
+2026-06-07 13:33:06 [INF] HTTP GET /api/dashboard responded 200 in 127.8758 ms
+2026-06-07 13:33:06 [INF] HTTP GET /api/dashboard responded 200 in 7.3417 ms
+2026-06-07 13:33:15 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0268 ms
+2026-06-07 13:33:15 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1037 ms
+2026-06-07 13:33:15 [INF] HTTP GET /api/tasks responded 200 in 11.7850 ms
+2026-06-07 13:33:15 [INF] HTTP GET /api/tasks responded 200 in 4.8862 ms
+2026-06-07 13:33:16 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0243 ms
+2026-06-07 13:33:16 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0608 ms
+2026-06-07 13:33:16 [INF] HTTP GET /api/tasks/36 responded 200 in 8.5902 ms
+2026-06-07 13:33:16 [INF] HTTP GET /api/tasks/36 responded 200 in 1.9694 ms
+2026-06-07 13:33:17 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0342 ms
+2026-06-07 13:33:17 [INF] HTTP OPTIONS /api/users responded 204 in 0.0317 ms
+2026-06-07 13:33:17 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0269 ms
+2026-06-07 13:33:17 [INF] HTTP OPTIONS /api/users responded 204 in 0.0352 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/tasks/36 responded 200 in 2.5062 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/categories responded 200 in 2.8913 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/users responded 200 in 10.2861 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/users responded 200 in 2.9217 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/tasks/36 responded 200 in 14.8569 ms
+2026-06-07 13:33:17 [INF] HTTP GET /api/categories responded 200 in 10.7215 ms
+2026-06-07 13:44:00 [INF] HTTP OPTIONS /api/tasks responded 204 in 14.0650 ms
+2026-06-07 13:44:00 [INF] HTTP OPTIONS /api/tasks responded 204 in 14.0758 ms
+2026-06-07 13:44:01 [INF] HTTP GET /api/tasks responded 200 in 519.6982 ms
+2026-06-07 13:44:01 [INF] HTTP GET /api/tasks responded 200 in 105.0423 ms
+2026-06-07 13:44:02 [INF] HTTP OPTIONS /api/auth/login responded 204 in 0.3216 ms
+2026-06-07 13:44:02 [INF] HTTP POST /api/auth/login responded 200 in 240.7108 ms
+2026-06-07 13:44:02 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0969 ms
+2026-06-07 13:44:02 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.2052 ms
+2026-06-07 13:44:02 [INF] HTTP GET /api/tasks responded 200 in 29.9357 ms
+2026-06-07 13:44:02 [INF] HTTP GET /api/tasks responded 200 in 10.4854 ms
+2026-06-07 13:44:02 [INF] HTTP GET /api/dashboard responded 200 in 99.5742 ms
+2026-06-07 13:44:02 [INF] HTTP GET /api/dashboard responded 200 in 10.0536 ms
+2026-06-07 13:44:10 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1483 ms
+2026-06-07 13:44:10 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.1724 ms
+2026-06-07 13:44:10 [INF] HTTP GET /api/tasks responded 200 in 15.0386 ms
+2026-06-07 13:44:10 [INF] HTTP GET /api/tasks responded 200 in 10.1131 ms
+2026-06-07 13:44:10 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.1142 ms
+2026-06-07 13:44:10 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0692 ms
+2026-06-07 13:44:11 [INF] HTTP GET /api/tasks/36 responded 200 in 86.4646 ms
+2026-06-07 13:44:11 [INF] HTTP GET /api/tasks/36 responded 200 in 4.4130 ms
+2026-06-07 13:44:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1601 ms
+2026-06-07 13:44:12 [INF] HTTP OPTIONS /api/users responded 204 in 0.1608 ms
+2026-06-07 13:44:12 [INF] HTTP OPTIONS /api/users responded 204 in 0.1096 ms
+2026-06-07 13:44:12 [INF] HTTP OPTIONS /api/categories responded 204 in 0.1097 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/tasks/36 responded 200 in 4.3960 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/tasks/36 responded 200 in 7.5260 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/users responded 200 in 37.7937 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/categories responded 200 in 49.6048 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/categories responded 200 in 4.9342 ms
+2026-06-07 13:44:12 [INF] HTTP GET /api/users responded 200 in 20.9330 ms
+2026-06-07 13:44:20 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.4953 ms
+2026-06-07 13:44:20 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.2778 ms
+2026-06-07 13:44:20 [INF] HTTP GET /api/tasks responded 200 in 9.7800 ms
+2026-06-07 13:44:20 [INF] HTTP GET /api/tasks responded 200 in 5.2580 ms
+2026-06-07 13:44:23 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0577 ms
+2026-06-07 13:44:23 [INF] HTTP OPTIONS /api/users responded 204 in 0.0351 ms
+2026-06-07 13:44:23 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0192 ms
+2026-06-07 13:44:23 [INF] HTTP OPTIONS /api/users responded 204 in 0.0299 ms
+2026-06-07 13:44:23 [INF] HTTP GET /api/categories responded 200 in 6.5991 ms
+2026-06-07 13:44:23 [INF] HTTP GET /api/users responded 200 in 45.1187 ms
+2026-06-07 13:44:23 [INF] HTTP GET /api/categories responded 200 in 3.5105 ms
+2026-06-07 13:44:23 [INF] HTTP GET /api/users responded 200 in 2.8318 ms
+2026-06-07 13:44:35 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0853 ms
+2026-06-07 13:44:35 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0699 ms
+2026-06-07 13:44:35 [INF] HTTP GET /api/tasks responded 200 in 16.7663 ms
+2026-06-07 13:44:35 [INF] HTTP GET /api/tasks responded 200 in 4.0110 ms
+2026-06-07 13:44:37 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0583 ms
+2026-06-07 13:44:37 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0439 ms
+2026-06-07 13:44:37 [INF] HTTP GET /api/tasks/36 responded 200 in 15.9747 ms
+2026-06-07 13:44:37 [INF] HTTP GET /api/tasks/36 responded 200 in 4.4026 ms
+2026-06-07 13:44:38 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0623 ms
+2026-06-07 13:44:38 [INF] HTTP OPTIONS /api/users responded 204 in 0.1290 ms
+2026-06-07 13:44:38 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0405 ms
+2026-06-07 13:44:38 [INF] HTTP OPTIONS /api/users responded 204 in 0.0129 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/tasks/36 responded 200 in 4.0079 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/categories responded 200 in 4.4840 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/users responded 200 in 8.8205 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/categories responded 200 in 8.8385 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/users responded 200 in 2.9213 ms
+2026-06-07 13:44:38 [INF] HTTP GET /api/tasks/36 responded 200 in 56.2028 ms
+2026-06-07 13:44:53 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0484 ms
+2026-06-07 13:44:53 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0272 ms
+2026-06-07 13:44:53 [INF] HTTP GET /api/tasks responded 200 in 16.2911 ms
+2026-06-07 13:44:53 [INF] HTTP GET /api/tasks responded 200 in 5.4866 ms
+2026-06-07 13:44:54 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0389 ms
+2026-06-07 13:44:54 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0332 ms
+2026-06-07 13:44:54 [INF] HTTP GET /api/tasks/36 responded 200 in 4.5493 ms
+2026-06-07 13:44:54 [INF] HTTP GET /api/tasks/36 responded 200 in 3.6496 ms
+2026-06-07 14:17:23 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.3813 ms
+2026-06-07 14:17:23 [INF] HTTP GET /api/tasks/36 responded 200 in 212.0815 ms
+2026-06-07 14:18:08 [INF] HTTP OPTIONS /api/categories responded 204 in 0.0312 ms
+2026-06-07 14:18:08 [INF] HTTP OPTIONS /api/users responded 204 in 0.0334 ms
+2026-06-07 14:18:08 [INF] HTTP OPTIONS /api/tasks/36 responded 204 in 0.0389 ms
+2026-06-07 14:18:08 [INF] HTTP GET /api/categories responded 200 in 18.0698 ms
+2026-06-07 14:18:08 [INF] HTTP GET /api/users responded 200 in 55.2226 ms
+2026-06-07 14:18:08 [INF] HTTP GET /api/tasks/36 responded 200 in 56.3911 ms
+2026-06-07 14:18:08 [INF] HTTP GET /api/tasks/36 responded 200 in 3.9774 ms
+2026-06-07 14:18:08 [INF] HTTP GET /api/tasks/36 responded 200 in 4.0696 ms
+2026-06-07 14:20:17 [INF] HTTP OPTIONS /api/auth/login responded 204 in 8.4857 ms
+2026-06-07 14:20:17 [INF] HTTP POST /api/auth/login responded 200 in 528.2303 ms
+2026-06-07 14:20:17 [INF] HTTP OPTIONS /api/dashboard responded 204 in 3.2597 ms
+2026-06-07 14:20:17 [INF] HTTP OPTIONS /api/dashboard responded 204 in 0.0953 ms
+2026-06-07 14:20:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0571 ms
+2026-06-07 14:20:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0794 ms
+2026-06-07 14:20:18 [INF] HTTP GET /api/dashboard responded 200 in 293.0752 ms
+2026-06-07 14:20:18 [INF] HTTP GET /api/dashboard responded 200 in 37.4064 ms
+2026-06-07 14:20:18 [INF] HTTP GET /api/tasks responded 200 in 441.6754 ms
+2026-06-07 14:20:18 [INF] HTTP GET /api/tasks responded 200 in 15.0739 ms
+2026-06-07 14:20:20 [INF] HTTP GET /api/tasks responded 200 in 24.1827 ms
+2026-06-07 14:20:20 [INF] HTTP GET /api/tasks responded 200 in 10.3143 ms
+2026-06-07 14:20:41 [INF] HTTP OPTIONS /api/tasks/33 responded 204 in 0.1940 ms
+2026-06-07 14:20:41 [INF] HTTP OPTIONS /api/tasks/33 responded 204 in 0.2995 ms
+2026-06-07 14:20:41 [INF] HTTP GET /api/tasks/33 responded 200 in 100.1572 ms
+2026-06-07 14:20:41 [INF] HTTP GET /api/tasks/33 responded 200 in 5.7564 ms
+2026-06-07 14:20:54 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0911 ms
+2026-06-07 14:20:54 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0897 ms
+2026-06-07 14:20:54 [INF] HTTP GET /api/tasks responded 200 in 20.5710 ms
+2026-06-07 14:20:54 [INF] HTTP GET /api/tasks responded 200 in 6.1293 ms
+2026-06-07 14:20:57 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 0.0748 ms
+2026-06-07 14:20:57 [INF] HTTP OPTIONS /api/tasks/34 responded 204 in 0.0672 ms
+2026-06-07 14:20:57 [INF] HTTP GET /api/tasks/34 responded 200 in 11.7678 ms
+2026-06-07 14:20:57 [INF] HTTP GET /api/tasks/34 responded 200 in 4.4242 ms
+2026-06-07 14:21:07 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.3993 ms
+2026-06-07 14:21:07 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0729 ms
+2026-06-07 14:21:07 [INF] HTTP GET /api/tasks responded 200 in 12.5648 ms
+2026-06-07 14:21:07 [INF] HTTP GET /api/tasks responded 200 in 4.0871 ms
+2026-06-07 14:21:11 [INF] HTTP OPTIONS /api/tasks/35 responded 204 in 0.0718 ms
+2026-06-07 14:21:11 [INF] HTTP OPTIONS /api/tasks/35 responded 204 in 0.0586 ms
+2026-06-07 14:21:11 [INF] HTTP GET /api/tasks/35 responded 200 in 16.5819 ms
+2026-06-07 14:21:11 [INF] HTTP GET /api/tasks/35 responded 200 in 5.0973 ms
+2026-06-07 14:21:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0841 ms
+2026-06-07 14:21:17 [INF] HTTP OPTIONS /api/tasks responded 204 in 0.0485 ms
+2026-06-07 14:21:17 [INF] HTTP GET /api/tasks responded 200 in 16.3669 ms
+2026-06-07 14:21:17 [INF] HTTP GET /api/tasks responded 200 in 17.0073 ms

@@ -10,125 +10,175 @@ interface Task {
   description: string;
   status: string;
   priority: string;
-  categoryName: string;
   dueDate: string | null;
+  createdAt: string;
+  updatedAt: string;
+  categoryName: string;
+  categoryId: number;
   ownerName: string;
   ownerId: string;
   assignedToName: string | null;
-  createdAt: string;
-  updatedAt: string;
+  assignedToId: string | null;
 }
 
 const statusColors: Record<string, string> = {
-  Pending: 'bg-amber-100 text-amber-700',
-  InProgress: 'bg-blue-100 text-blue-700',
-  Completed: 'bg-green-100 text-green-700',
+  Pending: 'bg-yellow-100 text-yellow-800',
+  InProgress: 'bg-blue-100 text-blue-800',
+  Completed: 'bg-green-100 text-green-800',
+};
+
+const priorityColors: Record<string, string> = {
+  Low: 'bg-gray-100 text-gray-700',
+  Medium: 'bg-orange-100 text-orange-700',
+  High: 'bg-red-100 text-red-700',
 };
 
 const TaskDetailPage: React.FC = () => {
   const { id } = useParams<{ id: string }>();
+  const navigate = useNavigate();
+  const { user } = useAuth();
+
   const [task, setTask] = useState<Task | null>(null);
   const [loading, setLoading] = useState(true);
-  const [deleting, setDeleting] = useState(false);
-  const [deleteModal, setDeleteModal] = useState(false);
-  const { user } = useAuth();
-  const navigate = useNavigate();
+  const [error, setError] = useState('');
+  const [showDeleteModal, setShowDeleteModal] = useState(false);
 
-  useEffect(() => {
-    api.get(`/tasks/${id}`)
-      .then(res => setTask(res.data))
-      .finally(() => setLoading(false));
-  }, [id]);
-
+  const isAdmin = user?.role === 'Admin';
   const isOwner = task?.ownerId === user?.id;
 
-  const handleDeleteConfirm = async () => {
-    setDeleting(true);
+  // Edit button visible only to the task owner (never to admin-only viewers)
+  const canEdit = isOwner;
+
+  // Delete button visible only to the task owner
+  const canDelete = isOwner;
+
+  useEffect(() => {
+    const fetchTask = async () => {
+      try {
+        const res = await api.get(`/tasks/${id}`);
+        setTask(res.data);
+      } catch {
+        setError('Task not found or you do not have permission to view it.');
+      } finally {
+        setLoading(false);
+      }
+    };
+    fetchTask();
+  }, [id]);
+
+  const handleDelete = async () => {
     try {
       await api.delete(`/tasks/${id}`);
       navigate('/tasks');
-    } catch (err: any) {
-      alert(err.response?.data?.message || 'Failed to delete task');
-      setDeleting(false);
-    } finally {
-      setDeleteModal(false);
+    } catch {
+      setError('Failed to delete task.');
     }
   };
 
-  if (loading) return <div className="p-8 text-gray-400 text-sm">Loading...</div>;
-  if (!task) return <div className="p-8 text-gray-400 text-sm">Task not found.</div>;
+  if (loading) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-violet-600" />
+      </div>
+    );
+  }
+
+  if (error || !task) {
+    return (
+      <div className="min-h-screen flex items-center justify-center">
+        <div className="text-center">
+          <p className="text-red-500 text-lg mb-4">{error || 'Task not found.'}</p>
+          <button
+            onClick={() => navigate('/tasks')}
+            className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700"
+          >
+            Back to Tasks
+          </button>
+        </div>
+      </div>
+    );
+  }
+
+  const details = [
+    { label: 'Status', value: task.status, badge: statusColors[task.status] },
+    { label: 'Priority', value: task.priority, badge: priorityColors[task.priority] },
+    { label: 'Category', value: task.categoryName },
+    { label: 'Due Date', value: task.dueDate ? new Date(task.dueDate + 'Z').toLocaleDateString() : 'No due date' },
+    { label: 'Created', value: new Date(task.createdAt + 'Z').toLocaleString() },
+    { label: 'Last Updated', value: new Date(task.updatedAt + 'Z').toLocaleString() },
+    { label: 'Owner', value: task.ownerName },
+    { label: 'Assigned To', value: task.assignedToName || 'Unassigned' },
+  ];
 
   return (
-    <div className="p-8 max-w-3xl">
-      <button
-        onClick={() => navigate('/tasks')}
-        className="text-sm text-blue-600 hover:underline mb-5 flex items-center gap-1"
-      >
-        ← Back to Tasks
-      </button>
+    <div className="min-h-screen bg-gray-50 py-8 px-4">
+      <div className="max-w-3xl mx-auto">
 
-      <div className="bg-white border border-gray-200 rounded-xl p-7">
-        <div className="flex items-start justify-between gap-4 mb-5">
-          <div>
-            <h2 className="text-xl font-semibold text-gray-800">{task.title}</h2>
-            <span className={`text-xs px-2.5 py-0.5 rounded-full font-medium mt-2 inline-block ${statusColors[task.status]}`}>
-              {task.status}
-            </span>
-          </div>
-          <div className="flex gap-2 flex-shrink-0">
-            <button
-              onClick={() => navigate(`/tasks/${id}/edit`)}
-              className="text-sm bg-gray-100 hover:bg-gray-200 text-gray-700 px-4 py-2 rounded-lg transition-colors"
-            >
-              Edit
-            </button>
-            {isOwner && (
+        {/* Header */}
+        <div className="flex items-center justify-between mb-6">
+          <button
+            onClick={() => navigate('/tasks')}
+            className="flex items-center gap-2 text-gray-500 hover:text-gray-700 transition-colors"
+          >
+            ← Back to Tasks
+          </button>
+
+          {/* Action buttons — only shown to task owner */}
+          <div className="flex gap-3">
+            {canEdit && (
               <button
-                onClick={() => setDeleteModal(true)}
-                disabled={deleting}
-                className="text-sm bg-red-50 hover:bg-red-100 text-red-600 px-4 py-2 rounded-lg transition-colors disabled:opacity-50"
+                onClick={() => navigate(`/tasks/${task.id}/edit`)}
+                className="px-4 py-2 bg-violet-600 text-white rounded-lg hover:bg-violet-700 transition-colors text-sm font-medium"
               >
-                {deleting ? 'Deleting...' : 'Delete'}
+                ✏️ Edit Task
+              </button>
+            )}
+            {canDelete && (
+              <button
+                onClick={() => setShowDeleteModal(true)}
+                className="px-4 py-2 bg-red-500 text-white rounded-lg hover:bg-red-600 transition-colors text-sm font-medium"
+              >
+                🗑️ Delete
               </button>
             )}
           </div>
         </div>
 
-        {task.description && (
-          <p className="text-gray-600 text-sm leading-relaxed mb-6 pb-6 border-b border-gray-100">
-            {task.description}
-          </p>
-        )}
-
-        <div className="grid grid-cols-2 gap-4">
-          {[
-            { label: 'Priority', value: task.priority },
-            { label: 'Category', value: task.categoryName },
-            { label: 'Owner', value: task.ownerName },
-            { label: 'Assigned To', value: task.assignedToName || 'Unassigned' },
-            { label: 'Due Date', value: task.dueDate ? new Date(task.dueDate + 'Z').toLocaleDateString() : 'No due date' },
-{ label: 'Created', value: new Date(task.createdAt + 'Z').toLocaleString() },
-{ label: 'Last Updated', value: new Date(task.updatedAt + 'Z').toLocaleString() },
-          ].map(item => (
-            <div key={item.label} className="bg-gray-50 rounded-lg p-3">
-              <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">{item.label}</p>
-              <p className="text-sm font-medium text-gray-700">{item.value}</p>
-            </div>
-          ))}
-        </div>
-
-        {!isOwner && (
-          <div className="mt-4 bg-amber-50 border border-amber-200 rounded-lg px-4 py-3 text-sm text-amber-700">
-            You are not the owner of this task. Only the owner can delete it.
+        {/* Admin view notice — shown when admin is viewing someone else's task */}
+        {isAdmin && !isOwner && (
+          <div className="mb-4 p-3 bg-blue-50 border border-blue-200 rounded-lg text-blue-700 text-sm">
+            👁️ <strong>Admin view</strong> — You can view this task but cannot edit or delete it as you are not the owner.
           </div>
         )}
+
+        {/* Task Card */}
+        <div className="bg-white rounded-2xl shadow-sm border border-gray-100 p-6">
+          <h1 className="text-2xl font-bold text-gray-900 mb-2">{task.title}</h1>
+          <p className="text-gray-500 mb-6 leading-relaxed">{task.description || 'No description provided.'}</p>
+
+          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+            {details.map(({ label, value, badge }) => (
+              <div key={label} className="bg-gray-50 rounded-xl p-4">
+                <p className="text-xs font-medium text-gray-400 uppercase tracking-wider mb-1">{label}</p>
+                {badge ? (
+                  <span className={`inline-block px-2 py-0.5 rounded-full text-sm font-medium ${badge}`}>
+                    {value}
+                  </span>
+                ) : (
+                  <p className="text-sm font-medium text-gray-800">{value}</p>
+                )}
+              </div>
+            ))}
+          </div>
+        </div>
       </div>
 
+      {/* Delete Confirm Modal */}
       <DeleteConfirmModal
-        isOpen={deleteModal}
+        isOpen={showDeleteModal}
         taskTitle={task.title}
-        onConfirm={handleDeleteConfirm}
-        onCancel={() => setDeleteModal(false)}
+        onConfirm={handleDelete}
+        onCancel={() => setShowDeleteModal(false)}
       />
     </div>
   );
