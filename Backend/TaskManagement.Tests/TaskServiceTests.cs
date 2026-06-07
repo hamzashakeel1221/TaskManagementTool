@@ -19,6 +19,8 @@ public class TaskServiceTests
         return new AppDbContext(options);
     }
 
+    // ─── Existing Tests ────────────────────────────────────────────────────────
+
     [Fact]
     public async Task GetTasksAsync_ReturnsOnlyUserTasks_WhenNotAdmin()
     {
@@ -78,5 +80,101 @@ public class TaskServiceTests
         var tasks = await service.GetTasksAsync("u1", true);
 
         tasks.Should().HaveCount(2);
+    }
+
+    // ─── New Tests ─────────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task DeleteTaskAsync_ByOwner_DeletesSuccessfully()
+    {
+        var context = CreateInMemoryContext();
+        var category = new Category { Id = 1, Name = "Dev" };
+        context.Categories.Add(category);
+        var owner = new AppUser { Id = "owner1", FullName = "Owner", Email = "owner@test.com" };
+        context.Users.Add(owner);
+        context.Tasks.Add(new TaskItem { Id = 1, Title = "My Task", OwnerId = "owner1", CategoryId = 1 });
+        await context.SaveChangesAsync();
+
+        var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
+        await service.DeleteTaskAsync(1, "owner1");
+
+        context.Tasks.Should().BeEmpty();
+    }
+
+    [Fact]
+    public async Task DeleteTaskAsync_WithInvalidId_ThrowsKeyNotFoundException()
+    {
+        var context = CreateInMemoryContext();
+
+        var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
+        var act = () => service.DeleteTaskAsync(999, "owner1");
+
+        await act.Should().ThrowAsync<KeyNotFoundException>()
+            .WithMessage("Task 999 not found.");
+    }
+
+    [Fact]
+    public async Task CreateTaskAsync_WithValidData_ReturnsCreatedTask()
+    {
+        var context = CreateInMemoryContext();
+        var category = new Category { Id = 1, Name = "Dev" };
+        var owner = new AppUser { Id = "owner1", FullName = "Owner", Email = "owner@test.com" };
+        context.Categories.Add(category);
+        context.Users.Add(owner);
+        await context.SaveChangesAsync();
+
+        var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
+        var dto = new CreateTaskDto(
+            Title: "New Task",
+            Description: "Test description",
+            Priority: "High",
+            CategoryId: 1,
+            DueDate: DateTime.UtcNow.AddDays(7),
+            AssignedToId: null
+        );
+
+        var result = await service.CreateTaskAsync(dto, "owner1");
+
+        result.Should().NotBeNull();
+        result.Title.Should().Be("New Task");
+        result.Priority.Should().Be("High");
+        result.OwnerId.Should().Be("owner1");
+    }
+
+    [Fact]
+    public async Task GetTaskByIdAsync_WithInvalidId_ReturnsNull()
+    {
+        var context = CreateInMemoryContext();
+
+        var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
+        var result = await service.GetTaskByIdAsync(999, "owner1", true);
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task GetTaskByIdAsync_ByNonOwnerNonAdmin_ThrowsUnauthorizedAccessException()
+    {
+        var context = CreateInMemoryContext();
+        var category = new Category { Id = 1, Name = "Dev" };
+        var owner = new AppUser { Id = "owner1", FullName = "Owner", Email = "owner@test.com" };
+        context.Categories.Add(category);
+        context.Users.Add(owner);
+        context.Tasks.Add(new TaskItem
+        {
+            Id = 1,
+            Title = "Secret Task",
+            OwnerId = "owner1",
+            CategoryId = 1,
+            Owner = owner,
+            Category = category
+        });
+        await context.SaveChangesAsync();
+
+        var service = new TaskService(context, new Mock<ILogger<TaskService>>().Object);
+        var act = () => service.GetTaskByIdAsync(1, "other-user", false);
+
+        await act.Should().ThrowAsync<UnauthorizedAccessException>()
+            .WithMessage("You do not have access to this task.");
     }
 }

@@ -2,6 +2,7 @@ import React, { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import api from '../api/axios';
 import DeleteConfirmModal from '../components/DeleteConfirmModal';
+import { useAuth } from '../context/AuthContext'; // ← ADDED
 
 interface Task {
   id: number;
@@ -12,6 +13,7 @@ interface Task {
   dueDate: string | null;
   assignedToName: string | null;
   ownerName: string;
+  ownerId: string; // ← ADDED
 }
 
 const statusColors: Record<string, string> = {
@@ -37,6 +39,7 @@ const TaskListPage: React.FC = () => {
     taskTitle: '',
   });
   const navigate = useNavigate();
+  const { user } = useAuth(); // ← ADDED
 
   useEffect(() => {
     api.get('/tasks')
@@ -132,7 +135,7 @@ const TaskListPage: React.FC = () => {
                     <span className="text-xs text-gray-400">📁 {task.categoryName}</span>
                     {task.dueDate && (
                       <span className="text-xs text-gray-400">
-                        📅 {new Date(task.dueDate).toLocaleDateString()}
+                        📅 {new Date(task.dueDate + 'Z').toLocaleDateString()}
                       </span>
                     )}
                   </div>
@@ -144,13 +147,16 @@ const TaskListPage: React.FC = () => {
                     )}
                     <p className="text-xs text-gray-300 mt-1">by {task.ownerName}</p>
                   </div>
-                  <button
-                    onClick={(e) => handleDeleteClick(e, task.id, task.title)}
-                    className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
-                    title="Delete task"
-                  >
-                    🗑️
-                  </button>
+                  {/* ← CHANGED: only show delete button if current user is the owner */}
+                  {user?.id === task.ownerId && (
+                    <button
+                      onClick={(e) => handleDeleteClick(e, task.id, task.title)}
+                      className="p-2 text-gray-400 hover:text-red-500 hover:bg-red-50 rounded-lg transition-colors"
+                      title="Delete task"
+                    >
+                      🗑️
+                    </button>
+                  )}
                 </div>
               </div>
             </Link>

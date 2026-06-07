@@ -106,9 +106,9 @@ const TaskDetailPage: React.FC = () => {
             { label: 'Category', value: task.categoryName },
             { label: 'Owner', value: task.ownerName },
             { label: 'Assigned To', value: task.assignedToName || 'Unassigned' },
-            { label: 'Due Date', value: task.dueDate ? new Date(task.dueDate).toLocaleDateString() : 'No due date' },
-            { label: 'Created', value: new Date(task.createdAt).toLocaleString() },
-            { label: 'Last Updated', value: new Date(task.updatedAt).toLocaleString() },
+            { label: 'Due Date', value: task.dueDate ? new Date(task.dueDate + 'Z').toLocaleDateString() : 'No due date' },
+{ label: 'Created', value: new Date(task.createdAt + 'Z').toLocaleString() },
+{ label: 'Last Updated', value: new Date(task.updatedAt + 'Z').toLocaleString() },
           ].map(item => (
             <div key={item.label} className="bg-gray-50 rounded-lg p-3">
               <p className="text-xs text-gray-400 uppercase tracking-wide mb-1">{item.label}</p>

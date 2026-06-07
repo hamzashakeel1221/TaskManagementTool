@@ -32,6 +32,8 @@ public class AuthServiceTests
         _authService = new AuthService(_userManagerMock.Object, _configMock.Object, _loggerMock.Object);
     }
 
+    // ─── Existing Tests ────────────────────────────────────────────────────────
+
     [Fact]
     public async Task RegisterAsync_WithExistingEmail_ThrowsInvalidOperationException()
     {
@@ -45,15 +47,14 @@ public class AuthServiceTests
     }
 
     [Fact]
-    public async Task LoginAsync_WithInvalidCredentials_ThrowsUnauthorizedAccessException()
+    public async Task LoginAsync_WithInvalidCredentials_ReturnsNull()
     {
         _userManagerMock.Setup(x => x.FindByEmailAsync("bad@test.com"))
             .ReturnsAsync((AppUser?)null);
 
-        var act = () => _authService.LoginAsync(new LoginDto("bad@test.com", "wrongpassword"));
+        var result = await _authService.LoginAsync(new LoginDto("bad@test.com", "wrongpassword"));
 
-        await act.Should().ThrowAsync<UnauthorizedAccessException>()
-            .WithMessage("Invalid email or password.");
+        result.Should().BeNull();
     }
 
     [Fact]
@@ -69,5 +70,93 @@ public class AuthServiceTests
 
         await act.Should().ThrowAsync<InvalidOperationException>()
             .WithMessage("Password too weak.");
+    }
+
+    // ─── New Tests ─────────────────────────────────────────────────────────────
+
+    [Fact]
+    public async Task LoginAsync_WithValidCredentials_ReturnsAuthResponseDto()
+    {
+        var user = new AppUser
+        {
+            Id = "user1",
+            Email = "valid@test.com",
+            FullName = "Valid User",
+            UserName = "valid@test.com"
+        };
+
+        _userManagerMock.Setup(x => x.FindByEmailAsync("valid@test.com"))
+            .ReturnsAsync(user);
+
+        _userManagerMock.Setup(x => x.CheckPasswordAsync(user, "Pass@123"))
+            .ReturnsAsync(true);
+
+        _userManagerMock.Setup(x => x.GetRolesAsync(user))
+            .ReturnsAsync(new List<string> { "User" });
+
+        var result = await _authService.LoginAsync(new LoginDto("valid@test.com", "Pass@123"));
+
+        result.Should().NotBeNull();
+        result!.Email.Should().Be("valid@test.com");
+        result.Role.Should().Be("User");
+        result.Token.Should().NotBeNullOrEmpty();
+    }
+
+    [Fact]
+    public async Task LoginAsync_WithWrongPassword_ReturnsNull()
+    {
+        var user = new AppUser
+        {
+            Id = "user1",
+            Email = "valid@test.com",
+            FullName = "Valid User",
+            UserName = "valid@test.com"
+        };
+
+        _userManagerMock.Setup(x => x.FindByEmailAsync("valid@test.com"))
+            .ReturnsAsync(user);
+
+        _userManagerMock.Setup(x => x.CheckPasswordAsync(user, "wrongpassword"))
+            .ReturnsAsync(false);
+
+        var result = await _authService.LoginAsync(new LoginDto("valid@test.com", "wrongpassword"));
+
+        result.Should().BeNull();
+    }
+
+    [Fact]
+    public async Task RegisterAsync_WithValidData_ReturnsAuthResponseDto()
+    {
+        var user = new AppUser
+        {
+            Id = "newuser1",
+            Email = "newuser@test.com",
+            FullName = "New User",
+            UserName = "newuser@test.com"
+        };
+
+        _userManagerMock.Setup(x => x.FindByEmailAsync("newuser@test.com"))
+            .ReturnsAsync((AppUser?)null);
+
+        _userManagerMock.Setup(x => x.CreateAsync(It.IsAny<AppUser>(), "Pass@123"))
+            .ReturnsAsync(IdentityResult.Success)
+            .Callback<AppUser, string>((u, _) =>
+            {
+                u.Id = user.Id;
+                u.FullName = user.FullName;
+            });
+
+        _userManagerMock.Setup(x => x.AddToRoleAsync(It.IsAny<AppUser>(), "User"))
+            .ReturnsAsync(IdentityResult.Success);
+
+        _userManagerMock.Setup(x => x.GetRolesAsync(It.IsAny<AppUser>()))
+            .ReturnsAsync(new List<string> { "User" });
+
+        var result = await _authService.RegisterAsync(new RegisterDto("New User", "newuser@test.com", "Pass@123"));
+
+        result.Should().NotBeNull();
+        result.Email.Should().Be("newuser@test.com");
+        result.Token.Should().NotBeNullOrEmpty();
+        result.Role.Should().Be("User");
     }
 }

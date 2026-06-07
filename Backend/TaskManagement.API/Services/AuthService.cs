@@ -48,16 +48,15 @@ public class AuthService : IAuthService
         return await GenerateTokenAsync(user);
     }
 
-    public async Task<AuthResponseDto> LoginAsync(LoginDto dto)
+    public async Task<AuthResponseDto?> LoginAsync(LoginDto dto)
     {
         var user = await _userManager.FindByEmailAsync(dto.Email);
         if (user == null || !await _userManager.CheckPasswordAsync(user, dto.Password))
         {
             _logger.LogWarning("Failed login attempt for {Email}", dto.Email);
-            throw new UnauthorizedAccessException("Invalid email or password.");
+            return null;
         }
 
-        _logger.LogInformation("User logged in: {Email}", dto.Email);
         return await GenerateTokenAsync(user);
     }
 

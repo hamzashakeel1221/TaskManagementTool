@@ -23,7 +23,7 @@ public class ExceptionHandlingMiddleware
         catch (UnauthorizedAccessException ex)
         {
             _logger.LogWarning(ex, "Unauthorized access attempt.");
-            await WriteErrorAsync(context, HttpStatusCode.Forbidden, ex.Message);
+            await WriteErrorAsync(context, HttpStatusCode.Unauthorized, ex.Message);
         }
         catch (KeyNotFoundException ex)
         {
