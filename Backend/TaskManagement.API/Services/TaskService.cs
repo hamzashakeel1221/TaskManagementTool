@@ -92,7 +92,7 @@ public class TaskService : ITaskService
         bool isAssigned = task.AssignedToId == userId;
 
         if (!isOwner && !isAssigned)
-            throw new UnauthorizedAccessException("You do not have permission to edit this task.");
+            throw new UnauthorizedAccessException("You do not have access to this task.");
 
         if (isOwner)
         {
