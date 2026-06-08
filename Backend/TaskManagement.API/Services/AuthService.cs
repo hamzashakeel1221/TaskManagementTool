@@ -2,6 +2,7 @@
 using System.Security.Claims;
 using System.Text;
 using Microsoft.AspNetCore.Identity;
+using Microsoft.Extensions.Options;
 using Microsoft.IdentityModel.Tokens;
 using TaskManagement.API.DTOs;
 using TaskManagement.API.Models;
@@ -11,14 +12,17 @@ namespace TaskManagement.API.Services;
 public class AuthService : IAuthService
 {
     private readonly UserManager<AppUser> _userManager;
-    private readonly IConfiguration _config;
     private readonly ILogger<AuthService> _logger;
+    private readonly JwtSettings _jwtSettings;
 
-    public AuthService(UserManager<AppUser> userManager, IConfiguration config, ILogger<AuthService> logger)
+    public AuthService(
+        UserManager<AppUser> userManager,
+        ILogger<AuthService> logger,
+        IOptions<JwtSettings> jwtSettings)
     {
         _userManager = userManager;
-        _config = config;
         _logger = logger;
+        _jwtSettings = jwtSettings.Value;
     }
 
     public async Task<AuthResponseDto> RegisterAsync(RegisterDto dto)
@@ -47,6 +51,7 @@ public class AuthService : IAuthService
         await _userManager.AddToRoleAsync(user, "User");
         if (_logger.IsEnabled(LogLevel.Information))
             _logger.LogInformation("New user registered: {Email}", dto.Email);
+
         return await GenerateTokenAsync(user);
     }
 
@@ -68,8 +73,7 @@ public class AuthService : IAuthService
         var roles = await _userManager.GetRolesAsync(user);
         var role = roles.FirstOrDefault() ?? "User";
 
-        var expireMinutes = int.Parse(_config["Jwt:ExpireMinutes"] ?? "60");
-        var expiry = DateTime.UtcNow.AddMinutes(expireMinutes);
+        var expiry = DateTime.UtcNow.AddMinutes(_jwtSettings.ExpireMinutes);
 
         var claims = new List<Claim>
         {
@@ -80,14 +84,13 @@ public class AuthService : IAuthService
             new(JwtRegisteredClaimNames.Jti, Guid.NewGuid().ToString())
         };
 
-        var jwtSecret = _config["Jwt:Key"]!;
-        var keyBytes = Encoding.UTF8.GetBytes(jwtSecret);
+        var keyBytes = Encoding.UTF8.GetBytes(_jwtSettings.Key);
         var key = new SymmetricSecurityKey(keyBytes);
         var creds = new SigningCredentials(key, SecurityAlgorithms.HmacSha256);
 
         var token = new JwtSecurityToken(
-            issuer: _config["Jwt:Issuer"],
-            audience: _config["Jwt:Audience"],
+            issuer: _jwtSettings.Issuer,
+            audience: _jwtSettings.Audience,
             claims: claims,
             expires: expiry,
             signingCredentials: creds

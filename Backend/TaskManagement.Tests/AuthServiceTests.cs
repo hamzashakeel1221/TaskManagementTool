@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Identity;
-using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Logging;
+using Microsoft.Extensions.Options;
 using Moq;
 using TaskManagement.API.DTOs;
 using TaskManagement.API.Models;
@@ -12,7 +12,6 @@ namespace TaskManagement.Tests;
 public class AuthServiceTests
 {
     private readonly Mock<UserManager<AppUser>> _userManagerMock;
-    private readonly Mock<IConfiguration> _configMock;
     private readonly Mock<ILogger<AuthService>> _loggerMock;
     private readonly AuthService _authService;
 
@@ -22,14 +21,19 @@ public class AuthServiceTests
         _userManagerMock = new Mock<UserManager<AppUser>>(
             store.Object, null!, null!, null!, null!, null!, null!, null!, null!);
 
-        _configMock = new Mock<IConfiguration>();
-        _configMock.Setup(c => c["Jwt:Key"]).Returns("TestSecretKeyAtLeast32CharactersLong!!");
-        _configMock.Setup(c => c["Jwt:Issuer"]).Returns("TestIssuer");
-        _configMock.Setup(c => c["Jwt:Audience"]).Returns("TestAudience");
-        _configMock.Setup(c => c["Jwt:ExpireMinutes"]).Returns("60");
+       
+        var jwtSettings = Options.Create(new JwtSettings
+        {
+            Key = "TestSecretKeyAtLeast32CharactersLong!!",
+            Issuer = "TestIssuer",
+            Audience = "TestAudience",
+            ExpireMinutes = 60
+        });
 
         _loggerMock = new Mock<ILogger<AuthService>>();
-        _authService = new AuthService(_userManagerMock.Object, _configMock.Object, _loggerMock.Object);
+
+        
+        _authService = new AuthService(_userManagerMock.Object, _loggerMock.Object, jwtSettings);
     }
 
     // ─── Existing Tests ────────────────────────────────────────────────────────

@@ -10,6 +10,9 @@ namespace TaskManagement.API.Data.Migrations
     /// <inheritdoc />
     public partial class InitialCreate : Migration
     {
+        // ✅ FIX: Static readonly array instead of inline array argument (L218)
+        private static readonly string[] CategoryColumns = { "Id", "Name" };
+
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
@@ -213,9 +216,10 @@ namespace TaskManagement.API.Data.Migrations
                         onDelete: ReferentialAction.Cascade);
                 });
 
+            // ✅ FIX: Use static readonly field instead of inline array (L218)
             migrationBuilder.InsertData(
                 table: "Categories",
-                columns: new[] { "Id", "Name" },
+                columns: CategoryColumns,
                 values: new object[,]
                 {
                     { 1, "Development" },

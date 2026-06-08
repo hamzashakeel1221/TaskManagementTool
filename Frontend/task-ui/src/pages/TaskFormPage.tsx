@@ -117,7 +117,7 @@ const TaskFormPage: React.FC = () => {
         };
         await api.put(`/tasks/${id}`, payload);
       } else {
-        const assignedToId = isAdmin ? form.assignedToId || null : null; // ← extracted
+        const assignedToId = isAdmin ? form.assignedToId || null : null;
         const payload = {
           title: form.title,
           description: form.description,
@@ -137,8 +137,15 @@ const TaskFormPage: React.FC = () => {
     }
   };
 
-  // Extract submit button label to avoid nested ternary
-  const submitLabel = loading ? 'Saving...' : isEdit ? 'Update Task' : 'Create Task';
+  // ✅ FIX: Nested ternary extracted into independent statement (L141)
+  let submitLabel: string;
+  if (loading) {
+    submitLabel = 'Saving...';
+  } else if (isEdit) {
+    submitLabel = 'Update Task';
+  } else {
+    submitLabel = 'Create Task';
+  }
 
   return (
     <div className="min-h-screen bg-gray-50 py-8 px-4">

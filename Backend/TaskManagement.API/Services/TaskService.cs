@@ -48,7 +48,7 @@ public class TaskService : ITaskService
 
     public async Task<TaskResponseDto> CreateTaskAsync(CreateTaskDto dto, string ownerId, bool isAdmin)
     {
-        // Only admin can assign tasks to others
+       
         string? assignedToId = isAdmin ? dto.AssignedToId : null;
 
         var task = new TaskItem
@@ -64,10 +64,13 @@ public class TaskService : ITaskService
 
         _context.Tasks.Add(task);
         await _context.SaveChangesAsync();
+
+      
         _logger.LogInformation("Task created: {Title} by user {UserId}", dto.Title, ownerId);
 
+        
         return await GetTaskByIdAsync(task.Id, ownerId, true)
-            ?? throw new Exception("Failed to retrieve created task.");
+            ?? throw new InvalidOperationException("Failed to retrieve created task.");
     }
 
     public async Task<TaskResponseDto> UpdateTaskAsync(int id, UpdateTaskDto dto, string userId, bool isAdmin)
@@ -78,7 +81,7 @@ public class TaskService : ITaskService
         bool isOwner = task.OwnerId == userId;
         bool isAssigned = task.AssignedToId == userId;
 
-        // Admin cannot edit tasks they don't own
+       
         if (isAdmin && !isOwner)
             throw new UnauthorizedAccessException("Admin can only edit tasks they own.");
 
@@ -87,25 +90,28 @@ public class TaskService : ITaskService
 
         if (isOwner)
         {
-            // Owner can edit all fields of their own task
+           
             if (dto.Title != null) task.Title = dto.Title;
             if (dto.Description != null) task.Description = dto.Description;
             if (dto.Priority != null) task.Priority = Enum.Parse<TaskPriority>(dto.Priority);
             if (dto.CategoryId != null) task.CategoryId = dto.CategoryId.Value;
             task.DueDate = dto.DueDate;
-            // Admin owner can assign to anyone, regular owner cannot assign
+          
             task.AssignedToId = isAdmin ? dto.AssignedToId : null;
         }
 
-        // Status updatable by owner or assigned user
+      
         task.Status = Enum.Parse<Models.TaskStatus>(dto.Status);
         task.UpdatedAt = DateTime.UtcNow;
 
         await _context.SaveChangesAsync();
+
+      
         _logger.LogInformation("Task {Id} updated by user {UserId}", id, userId);
 
+      
         return await GetTaskByIdAsync(id, userId, true)
-            ?? throw new Exception("Failed to retrieve updated task.");
+            ?? throw new InvalidOperationException("Failed to retrieve updated task.");
     }
 
     public async Task DeleteTaskAsync(int id, string userId)
@@ -113,12 +119,14 @@ public class TaskService : ITaskService
         var task = await _context.Tasks.FindAsync(id)
             ?? throw new KeyNotFoundException($"Task {id} not found.");
 
-        // Only task owner can delete — admin cannot delete others' tasks
+       
         if (task.OwnerId != userId)
             throw new UnauthorizedAccessException("Only the task owner can delete this task.");
 
         _context.Tasks.Remove(task);
         await _context.SaveChangesAsync();
+
+        
         _logger.LogInformation("Task {Id} deleted by user {UserId}", id, userId);
     }
 

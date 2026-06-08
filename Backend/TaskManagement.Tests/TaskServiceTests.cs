@@ -11,7 +11,7 @@ namespace TaskManagement.Tests;
 
 public class TaskServiceTests
 {
-    private AppDbContext CreateInMemoryContext()
+    private static AppDbContext CreateInMemoryContext()
     {
         var options = new DbContextOptionsBuilder<AppDbContext>()
             .UseInMemoryDatabase(Guid.NewGuid().ToString())

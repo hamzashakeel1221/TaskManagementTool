@@ -17,7 +17,8 @@ public class ExceptionMiddlewareTests
         _loggerMock = new Mock<ILogger<ExceptionHandlingMiddleware>>();
     }
 
-    private static HttpContext CreateHttpContext()
+    // ✅ FIX: Return concrete type DefaultHttpContext instead of abstract HttpContext
+    private static DefaultHttpContext CreateHttpContext()
     {
         var context = new DefaultHttpContext();
         context.Response.Body = new MemoryStream();
